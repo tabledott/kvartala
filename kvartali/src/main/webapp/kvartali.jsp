@@ -236,7 +236,7 @@
 			<option value="6">6</option>	
 </select>
 
-<button type="button">Добави квартала</button>
+<button type="button" onclick="location = 'insert.jsp'" >Добави квартала</button>
 
 
 <script defer="defer">

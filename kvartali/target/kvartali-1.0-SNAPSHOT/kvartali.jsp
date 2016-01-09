@@ -2,6 +2,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page pageEncoding="UTF-8" %>
 
+<%@ page import="java.io.FileReader" %>
+<%@ page import="java.io.IOException" %>
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.util.LinkedList" %>
+
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
 <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -136,11 +142,40 @@
 Добави оценка за кварталите:
 <br><br>
 <select class="kvartal">
-			<option value="">Квартал</option>
-			<option value="5">Младост</option>
-			<option value="10">Люлин</option>
-			<option value="20">Обеля</option>		
+<option value="">Квартал</option>
+			<%
+			LinkedList<String> kvartali = new LinkedList<String>();
+			
+			BufferedReader br = null;
+			try {
+
+				String sCurrentLine;
+
+				br = new BufferedReader(new FileReader("kvartali.txt"));
+				int counter = 0;
+				while ((sCurrentLine = br.readLine()) != null) {
+					//<option value="5">Младост</option>
+					%> 
+					<option value="<%=counter %>"> <%=sCurrentLine%> </option> 
+					<%
+					counter++;
+					//kvartali.add(sCurrentLine);
+				}
+
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (br != null)br.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+			
+		%>		
 </select>
+
 <select class="location">
 			<option value="">Местоположение</option>
 			<option value="2">2</option>
@@ -201,7 +236,7 @@
 			<option value="6">6</option>	
 </select>
 
-<button type="button">Добави квартала</button>
+<button type="button" onclick="location = 'insert.jsp'" >Добави квартала</button>
 
 
 <script defer="defer">
