@@ -7,6 +7,9 @@
 <%@ page import="java.io.BufferedReader" %>
 <%@ page import="java.util.LinkedList" %>
 
+<%@ page import="com.kvartali.Kvartal" %>
+<%@ page import="com.googlecode.objectify.Key" %>
+<%@ page import="com.googlecode.objectify.ObjectifyService" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
 <head>
@@ -141,6 +144,8 @@
 <br> 
 Добави оценка за кварталите:
 <br><br>
+
+<form action="/addkvartal" method="post">
 <select class="kvartal">
 <option value="">Квартал</option>
 			<%
@@ -235,9 +240,12 @@
 			<option value="5">5</option>
 			<option value="6">6</option>	
 </select>
-
-<button type="button" onclick="location = 'insert.jsp'" >Добави квартала</button>
-
+<br><br>
+<textarea rows="4" cols="50" name="comment" form="usrform">
+Molq dobawete mnenie za kvartala...</textarea>
+<br><br>
+<button type="button" > Добави квартала</button>
+</form>
 
 <script defer="defer">
 	$(document).ready(function() 

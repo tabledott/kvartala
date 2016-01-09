@@ -1,5 +1,13 @@
+package com.kvartali;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+
+@Entity 
 public class Kvartal {
+	
+	@Id
+	private String kvartalId;
 	
 	private String name;
 	private short location;
@@ -13,6 +21,9 @@ public class Kvartal {
 	
 	
 	
+	public Kvartal() {
+		super();
+	}
 	public Kvartal(String name, short location, short parks, short crime,
 			short transport, short facilities, short buildings, short shops,
 			String opinion) {
