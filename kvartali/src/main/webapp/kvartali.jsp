@@ -5,6 +5,7 @@
 <%@ page import="java.io.FileReader" %>
 <%@ page import="java.io.IOException" %>
 <%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.util.LinkedList" %>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
@@ -141,17 +142,24 @@
 Добави оценка за кварталите:
 <br><br>
 <select class="kvartal">
-			<option value="">Квартал</option>
+<option value="">Квартал</option>
 			<%
+			LinkedList<String> kvartali = new LinkedList<String>();
+			
 			BufferedReader br = null;
 			try {
 
 				String sCurrentLine;
 
 				br = new BufferedReader(new FileReader("kvartali.txt"));
-
+				int counter = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
-					System.out.println(sCurrentLine);
+					//<option value="5">Младост</option>
+					%> 
+					<option value="<%=counter %>"> <%=sCurrentLine%> </option> 
+					<%
+					counter++;
+					//kvartali.add(sCurrentLine);
 				}
 
 			}
@@ -164,14 +172,10 @@
 					ex.printStackTrace();
 				}
 			}
-
-		
-	
-		%>
-			<option value="5">Младост</option>
-			<option value="10">Люлин</option>
-			<option value="20">Обеля</option>		
+			
+		%>		
 </select>
+
 <select class="location">
 			<option value="">Местоположение</option>
 			<option value="2">2</option>
