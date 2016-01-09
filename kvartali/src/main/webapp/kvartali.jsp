@@ -146,7 +146,7 @@
 <br><br>
 
 <form action="/addkvartal" method="post">
-<select class="kvartal">
+<select class="kvartal" name="kvartal">
 <option value="">Квартал</option>
 			<%
 			LinkedList<String> kvartali = new LinkedList<String>();
@@ -181,7 +181,7 @@
 		%>		
 </select>
 
-<select class="location">
+<select class="location" name="location">
 			<option value="">Местоположение</option>
 			<option value="2">2</option>
 			<option value="3">3</option>		
@@ -189,7 +189,7 @@
 			<option value="5">5</option>
 			<option value="6">6</option>	
 </select>
-<select class="nature">
+<select class="parks" name="parks">
 			<option value="">Паркове и зеленина</option>
 			<option value="2">2</option>
 			<option value="3">3</option>		
@@ -197,7 +197,7 @@
 			<option value="5">5</option>
 			<option value="6">6</option>	
 </select>
-<select class="infrastructure">
+<select class="infrastructure" name="infrastructure"">
 			<option value="">Инфраструктура</option>
 			<option value="2">2</option>
 			<option value="3">3</option>		
@@ -205,7 +205,7 @@
 			<option value="5">5</option>
 			<option value="6">6</option>	
 </select>
-<select class="transportation">
+<select class="transport" name="transport"">
 			<option value="">Транспорт</option>
 			<option value="2">2</option>
 			<option value="3">3</option>		
@@ -213,7 +213,7 @@
 			<option value="5">5</option>
 			<option value="6">6</option>	
 </select>
-<select class="shops">
+<select class="facilities" name="facilities">
 			<option value="">Публични сгради</option>
 			<option value="2">2</option>
 			<option value="3">3</option>		
@@ -222,7 +222,7 @@
 			<option value="6">6</option>	
 </select>
 
-<select class="buildings">
+<select class="buildings" name="buildings">
 			<option value="">Сграден фонд</option>
 	
 			<option value="2">2</option>
@@ -231,7 +231,7 @@
 			<option value="5">5</option>
 			<option value="6">6</option>	
 </select>
-<select class="shops">
+<select class="shops" name ="shops">
 			<option value="">Магазини</option>
 	
 			<option value="2">2</option>
@@ -241,10 +241,11 @@
 			<option value="6">6</option>	
 </select>
 <br><br>
-<textarea rows="4" cols="50" name="comment" form="usrform">
+<textarea rows="4" cols="50" name="opinion" form="usrform">
 Molq dobawete mnenie za kvartala...</textarea>
 <br><br>
-<button type="button" > Добави квартала</button>
+<input type="submit" />
+
 </form>
 
 <script defer="defer">

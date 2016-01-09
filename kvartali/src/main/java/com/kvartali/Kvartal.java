@@ -7,13 +7,14 @@ import com.googlecode.objectify.annotation.Id;
 public class Kvartal {
 	
 	@Id
-	private String kvartalId;
+	private Long kvartalId;
 	
 	private String name;
 	private short location;
 	private short parks;
 	private short crime;
 	private short transport;
+	private short infrastructure;
 	private short facilities;
 	private short buildings;
 	private short shops;
@@ -25,7 +26,7 @@ public class Kvartal {
 		super();
 	}
 	public Kvartal(String name, short location, short parks, short crime,
-			short transport, short facilities, short buildings, short shops,
+			short transport, short infrastructure, short facilities, short buildings, short shops,
 			String opinion) {
 		super();
 		this.name = name;
@@ -35,6 +36,7 @@ public class Kvartal {
 		this.transport = transport;
 		this.facilities = facilities;
 		this.buildings = buildings;
+		this.infrastructure = infrastructure;
 		this.shops = shops;
 		this.opinion = opinion;
 	}
