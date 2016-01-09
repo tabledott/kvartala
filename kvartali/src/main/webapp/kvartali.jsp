@@ -2,6 +2,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page pageEncoding="UTF-8" %>
 
+<%@ page import="java.io.FileReader" %>
+<%@ page import="java.io.IOException" %>
+<%@ page import="java.io.BufferedReader" %>
+
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
 <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -137,6 +142,32 @@
 <br><br>
 <select class="kvartal">
 			<option value="">Квартал</option>
+			<%
+			BufferedReader br = null;
+			try {
+
+				String sCurrentLine;
+
+				br = new BufferedReader(new FileReader("kvartali.txt"));
+
+				while ((sCurrentLine = br.readLine()) != null) {
+					System.out.println(sCurrentLine);
+				}
+
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (br != null)br.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+
+		
+	
+		%>
 			<option value="5">Младост</option>
 			<option value="10">Люлин</option>
 			<option value="20">Обеля</option>		
