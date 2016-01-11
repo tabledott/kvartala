@@ -28,8 +28,8 @@ public class AddKvartalServlet extends HttpServlet {
 	/*    UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();  // Find out who the user is.
 */
-	    System.out.println("AddingKvartalServlet!!");
-	    String name = req.getParameter("name");
+
+	    String name = req.getParameter("kvartal");
 	    if(name == null) { name = "";}
 	    
 	    short location = 0;

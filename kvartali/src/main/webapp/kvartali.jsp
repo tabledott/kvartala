@@ -1,4 +1,5 @@
 
+<%@page import="java.util.HashMap"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page pageEncoding="UTF-8" %>
 
@@ -6,10 +7,23 @@
 <%@ page import="java.io.IOException" %>
 <%@ page import="java.io.BufferedReader" %>
 <%@ page import="java.util.LinkedList" %>
+<%@ page import="java.util.List" %>
 
 <%@ page import="com.kvartali.Kvartal" %>
+<%@ page import="com.kvartali.OfyHelper" %>
+<%@ page import="com.kvartali.KvartaliVisualizer" %>
 <%@ page import="com.googlecode.objectify.Key" %>
+<%@ page import="com.googlecode.objectify.Objectify" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
+<%@ page import="com.google.appengine.api.datastore.DatastoreServiceFactory" %>
+<%@ page import="com.google.appengine.api.datastore.DatastoreService" %>
+<%@ page import="com.google.appengine.api.datastore.Query.Filter" %>
+<%@ page import="com.google.appengine.api.datastore.Query.FilterPredicate" %>
+<%@ page import="com.google.appengine.api.datastore.Query.FilterOperator" %>
+<%@ page import="com.google.appengine.api.datastore.Query" %>
+<%@ page import="com.google.appengine.api.datastore.PreparedQuery" %>
+<%@ page import="com.google.appengine.api.datastore.Entity" %>
+
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
 <head>
@@ -26,7 +40,7 @@
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. <br> <br> 
 	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com
 	
-	
+<form action="/kvartali.jsp" method="get">	
 <table id="insured_list" class="tablesorter"> 
 <thead> 
 <tr> 
@@ -44,86 +58,92 @@
 </tr> 
 </thead> 
 <tbody> 
+<%
+//get the names from the text file.
+BufferedReader br = null;
+LinkedList<String> kvartali_names = new LinkedList<String>();
+try {
+
+	String sCurrentLine;
+
+	br = new BufferedReader(new FileReader("kvartali.txt"));
+	int counter = 0;
+	while ((sCurrentLine = br.readLine()) != null) {
+		//<option value="5">Младост</option>
+		%> 
+		<option value="<%=sCurrentLine%>"> <%=sCurrentLine%> </option> 
+		<%
+		kvartali_names.add(sCurrentLine);
+	}
+
+}
+catch (IOException e) {
+	e.printStackTrace();
+} finally {
+	try {
+		if (br != null)br.close();
+	} catch (IOException ex) {
+		ex.printStackTrace();
+	}
+}
+
+//parsing kvartalite
+HashMap<String, KvartaliVisualizer> kvartaliParsed= new HashMap<String, KvartaliVisualizer>();
+
+List<Kvartal> allKvartalDatabase = ObjectifyService.ofy().load().type(Kvartal.class).list();
+
+KvartaliVisualizer tmp;
+
+for(int i = 0; i < allKvartalDatabase.size(); i++){
+	
+	if(!kvartaliParsed.containsKey(allKvartalDatabase.get(i).getName())){
+		tmp = new KvartaliVisualizer(allKvartalDatabase.get(i).getName());
+	}
+	else{
+		//use kvartal from the hashmap
+		 tmp = (KvartaliVisualizer)kvartaliParsed.get(allKvartalDatabase.get(i).getName());
+	}
+	tmp.addKvartal(allKvartalDatabase.get(i));
+	kvartaliParsed.put(allKvartalDatabase.get(i).getName(), tmp);
+
+}
+
+//Used for debugging purposes we have the data now
+for (String name: kvartaliParsed.keySet()){
+
+    String key =name.toString();
+    String value = kvartaliParsed.get(name).toString();  
+    System.out.println(key + " " + value.toString());  
+} 
+
+	//visualize the data for each Kvartal
+			
+	for (int i =0; i<kvartali_names.size(); i++ ){
+		if(kvartaliParsed.containsKey(kvartali_names.get(i))){
+			tmp = kvartaliParsed.get(allKvartalDatabase.get(i).getName());
+			System.out.println("Imame kvartal: " +kvartali_names.get(i)+ " "+ tmp.toString());
+		}
+		else{
+			tmp = new KvartaliVisualizer(kvartali_names.get(i));
+			System.out.println("Nqmame kvartal: " +kvartali_names.get(i)+ " "+ tmp.toString());
+		}
+		tmp.visualize();
+%>
+
 <tr> 
-    <td>Младост</td> 
-    <td>3</td>
-	<td>3</td>	
-	<td>3</td>
-	<td>4</td>	
-	<td>3</td>
-	<td>6</td>
-	<td>4</td>
-	<td>6</td>	
-	<td>5.4</td>		
-	<td>10</td>	
+    <td><%=tmp.name%></td> 
+    <% for(int j = 0; j<tmp.NUMBER_STATISTICS; j++) {%>
+    <td><%=tmp.averages[j]%></td>
+<%	
+       }
+	}
+	//}
+%>
 </tr> 
-<tr> 
-    <td>Младост2</td> 
-    <td>3</td>
-	<td>3</td>	
-	<td>3</td>
-	<td>4</td>	
-	<td>3</td>
-	<td>6</td>
-	<td>4</td>
-	<td>6</td>			
-	<td>4.4</td>
-	<td>10</td>	
-</tr> 
-<tr> 
-    <td>Младост3</td> 
-    <td>3</td>
-	<td>3</td>	
-	<td>3</td>
-	<td>4</td>	
-	<td>3</td>
-	<td>6</td>
-	<td>4</td>
-	<td>6</td>
-	<td>3.4</td>	
-	<td>10</td>	
-</tr> 
-<tr> 
-    <td>Младост4</td> 
-    <td>3</td>
-	<td>2</td>	
-	<td>3</td>
-	<td>4</td>	
-	<td>3</td>
-	<td>6</td>
-	<td>4</td>
-	<td>6</td>	
-	<td>4.2</td>	
-	<td>11</td>	
-</tr> 
-<tr> 
-    <td>Кръстова вада</td> 
-    <td>1</td>
-	<td>2</td>	
-	<td>3</td>
-	<td>4</td>	
-	<td>3</td>
-	<td>6</td>
-	<td>4</td>
-	<td>6</td>	
-	<td>4.3</td>	
-	<td>10</td>	
-</tr> 
-<tr> 
-    <td>Люлин</td> 
-    <td>5</td>
-	<td>3</td>	
-	<td>3</td>
-	<td>4</td>	
-	<td>3</td>
-	<td>6</td>
-	<td>4</td>
-	<td>6</td>	
-	<td>5.5</td>	
-	<td>10</td>	
-</tr> 
+
 </tbody> 
 </table> 
+</form>
 <div id="pager" class="pager">
 	<form>
 		<img src="images/first.png" class="first"/>
@@ -132,9 +152,9 @@
 		<img src="images/next.png" class="next"/>
 		<img src="images/last.png" class="last"/>
 		<select class="pagesize">
-			<option value="5">5 per page</option>
-			<option value="10">10 per page</option>
-			<option value="20">20 per page</option>
+			<option value="5">5 на страница</option>
+			<option value="10">10 на страница</option>
+			<option value="20">20 на страница</option>
 			
 		</select>
 	</form>
@@ -149,35 +169,16 @@
 <select class="kvartal" name="kvartal">
 <option value="">Квартал</option>
 			<%
-			LinkedList<String> kvartali = new LinkedList<String>();
+			//LinkedList<String> kvartali = new LinkedList<String>();
 			
-			BufferedReader br = null;
-			try {
-
-				String sCurrentLine;
-
-				br = new BufferedReader(new FileReader("kvartali.txt"));
-				int counter = 0;
-				while ((sCurrentLine = br.readLine()) != null) {
+			for(int i = 0; i < kvartali_names.size(); i++) {
 					//<option value="5">Младост</option>
 					%> 
-					<option value="<%=counter %>"> <%=sCurrentLine%> </option> 
+					<option value="<%=kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
 					<%
-					counter++;
 					//kvartali.add(sCurrentLine);
 				}
-
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (br != null)br.close();
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
-			}
-			
+				
 		%>		
 </select>
 
@@ -199,6 +200,15 @@
 </select>
 <select class="infrastructure" name="infrastructure"">
 			<option value="">Инфраструктура</option>
+			<option value="2">2</option>
+			<option value="3">3</option>		
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>	
+</select>
+
+<select class="crime" name="crime"">
+			<option value="">Сигурност</option>
 			<option value="2">2</option>
 			<option value="3">3</option>		
 			<option value="4">4</option>
@@ -242,9 +252,10 @@
 </select>
 <br><br>
 <textarea rows="4" cols="50" name="opinion" form="usrform">
-Molq dobawete mnenie za kvartala...</textarea>
+Въведете мнение за квартала, който оценихте
+</textarea>
 <br><br>
-<input type="submit" />
+<input type="submit" value="Добави"/>
 
 </form>
 

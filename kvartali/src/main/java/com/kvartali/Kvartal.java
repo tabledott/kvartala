@@ -1,5 +1,6 @@
 package com.kvartali;
 
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -19,7 +20,6 @@ public class Kvartal {
 	private short buildings;
 	private short shops;
 	private String opinion;
-	
 	
 	
 	public Kvartal() {
@@ -67,6 +67,12 @@ public class Kvartal {
 	public short getTransport() {
 		return transport;
 	}
+	public short getInfrastructure() {
+		return infrastructure;
+	}
+	public void setInfrastructure(short infrastructure) {
+		this.infrastructure = infrastructure;
+	}
 	public void setTransport(short transport) {
 		this.transport = transport;
 	}
@@ -93,6 +99,15 @@ public class Kvartal {
 	}
 	public void setOpinion(String opinion) {
 		this.opinion = opinion;
+	}
+	@Override
+	public String toString() {
+		return "Kvartal [kvartalId=" + kvartalId + ", name=" + name
+				+ ", location=" + location + ", parks=" + parks + ", crime="
+				+ crime + ", transport=" + transport + ", infrastructure="
+				+ infrastructure + ", facilities=" + facilities
+				+ ", buildings=" + buildings + ", shops=" + shops
+				+ ", opinion=" + opinion + "]";
 	}
 	
 }
