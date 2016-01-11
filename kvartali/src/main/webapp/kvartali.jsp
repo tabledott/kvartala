@@ -1,6 +1,7 @@
 
 <%@page import="java.util.HashMap"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@page pageEncoding="UTF-8" %>
 
 <%@ page import="java.io.FileReader" %>
@@ -36,7 +37,7 @@
 </head>
 <body>
 
-Оценка на кварталите и селата покрай София от 2 до 6, където 2 е най-лоша възможна оценка, а 6 най-добра. <br>  <br> 
+Идеята на приложението е да се даде оценка на кварталите на София от 2 до 6. <br>  <br> 
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. <br> <br> 
 	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com
 	
@@ -69,10 +70,7 @@ try {
 	br = new BufferedReader(new FileReader("kvartali.txt"));
 	int counter = 0;
 	while ((sCurrentLine = br.readLine()) != null) {
-		//<option value="5">Младост</option>
-		%> 
-		<option value="<%=sCurrentLine%>"> <%=sCurrentLine%> </option> 
-		<%
+		//<option value="5">Младост</option> 	
 		kvartali_names.add(sCurrentLine);
 	}
 
@@ -109,23 +107,22 @@ for(int i = 0; i < allKvartalDatabase.size(); i++){
 }
 
 //Used for debugging purposes we have the data now
+/*
 for (String name: kvartaliParsed.keySet()){
 
     String key =name.toString();
     String value = kvartaliParsed.get(name).toString();  
     System.out.println(key + " " + value.toString());  
 } 
-
+*/
 	//visualize the data for each Kvartal
 			
 	for (int i =0; i<kvartali_names.size(); i++ ){
 		if(kvartaliParsed.containsKey(kvartali_names.get(i))){
-			tmp = kvartaliParsed.get(allKvartalDatabase.get(i).getName());
-			System.out.println("Imame kvartal: " +kvartali_names.get(i)+ " "+ tmp.toString());
+			tmp = kvartaliParsed.get(kvartali_names.get(i));
 		}
 		else{
 			tmp = new KvartaliVisualizer(kvartali_names.get(i));
-			System.out.println("Nqmame kvartal: " +kvartali_names.get(i)+ " "+ tmp.toString());
 		}
 		tmp.visualize();
 %>
@@ -134,11 +131,14 @@ for (String name: kvartaliParsed.keySet()){
     <td><%=tmp.name%></td> 
     <% for(int j = 0; j<tmp.NUMBER_STATISTICS; j++) {%>
     <td><%=tmp.averages[j]%></td>
+  
+    
 <%	
        }
-	}
-	//}
-%>
+    %>
+    
+    <td><%=tmp.allStatistics%></td>
+	<% }%>
 </tr> 
 
 </tbody> 
@@ -250,9 +250,9 @@ for (String name: kvartaliParsed.keySet()){
 			<option value="5">5</option>
 			<option value="6">6</option>	
 </select>
-<br><br>
+<br><br>Въведете мнение за квартала, който оценихте:
+<br>
 <textarea rows="4" cols="50" name="opinion" form="usrform">
-Въведете мнение за квартала, който оценихте
 </textarea>
 <br><br>
 <input type="submit" value="Добави"/>

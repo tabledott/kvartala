@@ -5,11 +5,12 @@ import java.util.LinkedList;
 public class KvartaliVisualizer {
 	private int[] sumStatistics;
 	private int[] countStatistics;
+	public int allStatistics;
 	public double[] averages;
 	
 	public String name;
 	private LinkedList<String> opinions;
-	public final int NUMBER_STATISTICS = 10; 
+	public final int NUMBER_STATISTICS = 9; 
 	
 	public KvartaliVisualizer(int[] sumStatistics, int[] countStatistics,
 			String name, LinkedList<String> opinions) {
@@ -18,6 +19,7 @@ public class KvartaliVisualizer {
 		this.countStatistics = countStatistics;
 		this.name = name;
 		this.opinions = opinions;
+		allStatistics = 0;
 	}
 	
 	public KvartaliVisualizer(String name){
@@ -26,6 +28,7 @@ public class KvartaliVisualizer {
 		this.sumStatistics = new int[NUMBER_STATISTICS];
 		this.countStatistics = new int[NUMBER_STATISTICS];
 		this.averages = new double[NUMBER_STATISTICS];
+		allStatistics = 0;
 	}
 	
 	/* In this order
@@ -73,14 +76,9 @@ public class KvartaliVisualizer {
 			this.countStatistics[7]++;
 			this.sumStatistics[7]+=kvartal.getShops();
 		}
-		
-		for(int i =0; i<7;i++){
-			this.sumStatistics[8] += this.sumStatistics[i];
-		}
-
-		this.countStatistics[8]=1;
+				
 		// here we count all the evaluations
-		this.countStatistics[9]++;
+		allStatistics++;
 		
 		this.opinions.add(kvartal.getOpinion());
 	}
@@ -93,8 +91,16 @@ public class KvartaliVisualizer {
 			else{
 				this.averages[i] = 0;
 			}
+			
+			this.averages[i] = Double.parseDouble(String.format( "%.2f", this.averages[i])); 
 		}
-		this.averages[9] = this.countStatistics[9];
+		//calculate the average result
+		for(int j =0; j<7;j++){
+			this.averages[8] += this.averages[j];
+		}
+		this.averages[8]/=7;
+
+		this.averages[8] = Double.parseDouble(String.format( "%.2f", this.averages[8])); 
 	}
 	
 	public void addOpinion(String opinion){
