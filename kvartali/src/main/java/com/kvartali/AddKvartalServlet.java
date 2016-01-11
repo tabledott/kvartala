@@ -1,16 +1,6 @@
 package com.kvartali;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +10,15 @@ import com.googlecode.objectify.ObjectifyService;
 
 public class AddKvartalServlet extends HttpServlet {
 
-	  // Process the http POST of the form
+	private static final long serialVersionUID = 1L;
+
+	// Process the http POST of the form
 	  @Override
 	  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	    Kvartal kvartal;
-
-	/*    UserService userService = UserServiceFactory.getUserService();
-	    User user = userService.getCurrentUser();  // Find out who the user is.
-*/
+	    
+		req.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html; charset=utf-8");
 
 	    String name = req.getParameter("kvartal");
 	    if(name == null) { name = "";}
@@ -75,6 +66,8 @@ public class AddKvartalServlet extends HttpServlet {
 		    
 		    kvartal = new Kvartal(name,  location, parks,  crime,
 		    				 transport,  infrastructure, facilities,  buildings,  shops, opinion);
+		    
+		    System.out.println("Adding kvartal: " + kvartal);
 	    // Use Objectify to save the greeting and now() is used to make the call synchronously as we
 	    // will immediately get a new page using redirect and we want the data to be present.
 	    ObjectifyService.ofy().save().entity(kvartal).now();

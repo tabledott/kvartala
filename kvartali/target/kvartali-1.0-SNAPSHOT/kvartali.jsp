@@ -1,12 +1,13 @@
-
-<%@page import="java.util.HashMap"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@page pageEncoding="UTF-8" %>
 
+<%@page import="java.util.HashMap"%>
 <%@ page import="java.io.FileReader" %>
 <%@ page import="java.io.IOException" %>
 <%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.io.InputStreamReader" %>
+<%@ page import="java.io.FileInputStream" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="java.util.List" %>
 
@@ -16,16 +17,11 @@
 <%@ page import="com.googlecode.objectify.Key" %>
 <%@ page import="com.googlecode.objectify.Objectify" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
-<%@ page import="com.google.appengine.api.datastore.DatastoreServiceFactory" %>
-<%@ page import="com.google.appengine.api.datastore.DatastoreService" %>
-<%@ page import="com.google.appengine.api.datastore.Query.Filter" %>
-<%@ page import="com.google.appengine.api.datastore.Query.FilterPredicate" %>
-<%@ page import="com.google.appengine.api.datastore.Query.FilterOperator" %>
-<%@ page import="com.google.appengine.api.datastore.Query" %>
-<%@ page import="com.google.appengine.api.datastore.PreparedQuery" %>
-<%@ page import="com.google.appengine.api.datastore.Entity" %>
+<%@ page import="com.google.appengine.api.log.*" %>
 
-
+<jsp:directive.page contentType="text/html;charset=UTF-8"
+  language="java" isELIgnored="false" />
+  
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
 <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -44,7 +40,7 @@
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. <br> <br> 
 	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com
 	
-<form action="/kvartali.jsp" method="get">	
+<form accept-charset="UTF-8" action="/kvartali.jsp" method="get">	
 <table id="insured_list" class="tablesorter"> 
 <thead> 
 <tr> 
@@ -63,14 +59,20 @@
 </thead> 
 <tbody> 
 <%
+request.setCharacterEncoding( "UTF-8" );
+response.setCharacterEncoding( "UTF-8" );
 //get the names from the text file.
 BufferedReader br = null;
 LinkedList<String> kvartali_names = new LinkedList<String>();
 try {
 
 	String sCurrentLine;
+	
+	br = new BufferedReader(
+			   new InputStreamReader(
+	                      new FileInputStream("kvartali.txt"), "UTF-8"));
 
-	br = new BufferedReader(new FileReader("kvartali.txt"));
+//	br = new BufferedReader(new FileReader("kvartali.txt"));
 	int counter = 0;
 	while ((sCurrentLine = br.readLine()) != null) {
 		//<option value="5">Младост</option> 	
@@ -148,7 +150,7 @@ for (String name: kvartaliParsed.keySet()){
 </table> 
 </form>
 <div id="pager" class="pager">
-	<form>
+	<form accept-charset="UTF-8">
 		<img src="images/first.png" class="first"/>
 		<img src="images/prev.png" class="prev"/>
 		<input type="text" class="pagedisplay"/>
@@ -168,18 +170,18 @@ for (String name: kvartaliParsed.keySet()){
 Добави оценка за кварталите:
 <br><br>
 
-<form action="/addkvartal" method="post">
+<form accept-charset="UTF-8" action="/addkvartal" method="post">
 <select class="kvartal" name="kvartal">
 <option value="">Квартал</option>
 			<%
-			//LinkedList<String> kvartali = new LinkedList<String>();
+			request.setCharacterEncoding( "UTF-8" );			
+			response.setCharacterEncoding( "UTF-8" );
+			response.setHeader("Content-Encoding", "utf-8");
 			
 			for(int i = 0; i < kvartali_names.size(); i++) {
-					//<option value="5">Младост</option>
 					%> 
 					<option value="<%=kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
 					<%
-					//kvartali.add(sCurrentLine);
 				}
 				
 		%>		
