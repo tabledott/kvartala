@@ -1,6 +1,7 @@
 
 <%@page import="java.util.HashMap"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@page pageEncoding="UTF-8" %>
 
 <%@ page import="java.io.FileReader" %>
@@ -36,7 +37,10 @@
 </head>
 <body>
 
-Оценка на кварталите и селата покрай София от 2 до 6, където 2 е най-лоша възможна оценка, а 6 най-добра. <br>  <br> 
+<!-- <img src="images/sofia.jpg" class="sofia" style="width:304px;height:228px;"/>
+-->
+
+Идеята на приложението е да се даде оценка на кварталите на София от 2 до 6. <br>  <br> 
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. <br> <br> 
 	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com
 	
@@ -69,10 +73,7 @@ try {
 	br = new BufferedReader(new FileReader("kvartali.txt"));
 	int counter = 0;
 	while ((sCurrentLine = br.readLine()) != null) {
-		//<option value="5">Младост</option>
-		%> 
-		<option value="<%=sCurrentLine%>"> <%=sCurrentLine%> </option> 
-		<%
+		//<option value="5">Младост</option> 	
 		kvartali_names.add(sCurrentLine);
 	}
 
@@ -155,7 +156,7 @@ for (String name: kvartaliParsed.keySet()){
 		<img src="images/last.png" class="last"/>
 		<select class="pagesize">
 			<option value="5">5 на страница</option>
-			<option value="10">10 на страница</option>
+			<option value="10" selected="selected">10 на страница</option>
 			<option value="20">20 на страница</option>
 			
 		</select>

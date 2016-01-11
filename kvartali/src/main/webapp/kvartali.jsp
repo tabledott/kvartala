@@ -37,6 +37,9 @@
 </head>
 <body>
 
+<!-- <img src="images/sofia.jpg" class="sofia" style="width:304px;height:228px;"/>
+-->
+
 Идеята на приложението е да се даде оценка на кварталите на София от 2 до 6. <br>  <br> 
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. <br> <br> 
 	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com
@@ -153,7 +156,7 @@ for (String name: kvartaliParsed.keySet()){
 		<img src="images/last.png" class="last"/>
 		<select class="pagesize">
 			<option value="5">5 на страница</option>
-			<option value="10">10 на страница</option>
+			<option value="10" selected="selected">10 на страница</option>
 			<option value="20">20 на страница</option>
 			
 		</select>
