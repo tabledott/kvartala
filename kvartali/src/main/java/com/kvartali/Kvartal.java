@@ -29,8 +29,11 @@ public class Kvartal {
 	}
 	
 	//decodirane ot 5-ti4na brojna sistema ot 2 do 6
-	public Kvartal(String name, int ocenka){
-		this.ocenka = ocenka;
+	public Kvartal(String name, int ocenka, String opinion){
+		this.setOcenka(ocenka);
+		this.name = name;
+		this.opinion = opinion;
+		
 		this.location = (short)(ocenka%5 + 2);
 		ocenka/=5;
 		this.parks = (short)(ocenka%5 +2);
@@ -47,28 +50,6 @@ public class Kvartal {
 		ocenka/=5;
 		this.shops = (short)(ocenka%5 + 2);
 		ocenka/=5;
-	}
-	
-	public int generateOcenka(){
-		int t = 1;
-		int res = 0;
-		res+=(this.location-2)*t;
-		t*=5;
-		res+=(this.parks-2)*t;
-		t*=5;
-		res+=(this.crime-2)*t;
-		t*=5;
-		res+=(this.transport-2)*t;
-		t*=5;
-		res+=(this.infrastructure-2)*t;
-		t*=5;
-		res+=(this.facilities-2)*t;
-		t*=5;
-		res+=(this.buildings-2)*t;
-		t*=5;
-		res+=(this.shops-2)*t;
-		t*=5;
-		return res;
 	}
 	
 	public Kvartal(String name, short location, short parks, short crime,
@@ -110,6 +91,12 @@ public class Kvartal {
 		this.shops = Short.parseShort(data[8]);
 		this.opinion = data[9];
 	}
+	
+	//Дружба 2!&45655!&Италиянския квартал@@@Дружба 1!&6867!&София, мамо, София@@@
+	public String encodeToString(){
+		return this.name+"!&"+this.getOcenka()+"!&"+this.opinion+"@@@";
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -178,6 +165,32 @@ public class Kvartal {
 				+ infrastructure + ", facilities=" + facilities
 				+ ", buildings=" + buildings + ", shops=" + shops
 				+ ", opinion=" + opinion + "]";
+	}
+
+	public int getOcenka() {
+		int t = 1;
+		int res = 0;
+		res+=(this.location-2)*t;
+		t*=5;
+		res+=(this.parks-2)*t;
+		t*=5;
+		res+=(this.crime-2)*t;
+		t*=5;
+		res+=(this.transport-2)*t;
+		t*=5;
+		res+=(this.infrastructure-2)*t;
+		t*=5;
+		res+=(this.facilities-2)*t;
+		t*=5;
+		res+=(this.buildings-2)*t;
+		t*=5;
+		res+=(this.shops-2)*t;
+		t*=5;
+		return res;
+	}
+
+	public void setOcenka(int ocenka) {
+		this.ocenka = ocenka;
 	}
 	
 }

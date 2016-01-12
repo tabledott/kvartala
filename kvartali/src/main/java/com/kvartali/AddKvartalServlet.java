@@ -1,15 +1,15 @@
 package com.kvartali;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Random;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.googlecode.objectify.ObjectifyService;
 
 public class AddKvartalServlet extends HttpServlet {
@@ -71,7 +71,19 @@ public class AddKvartalServlet extends HttpServlet {
 		    kvartal = new Kvartal(name,  location, parks,  crime,
 		    				 transport,  infrastructure, facilities,  buildings,  shops, opinion);
 	    	
-		    ObjectifyService.ofy().save().entity(kvartal).now();
+		    String test="От Витоша изригва лава!";
+		    ObjectifyService.ofy().save().entity(test).now();
+		   //ObjectifyService.ofy().save().
+		    
+	/*	    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
+		    List<BlobKey> blobKeys = blobs.get("myFile");
+
+		    if (blobKeys == null || blobKeys.isEmpty()) {
+		        res.sendRedirect("/");
+		    } else {
+		        res.sendRedirect("/serve?blob-key=" + blobKeys.get(0).getKeyString());
+		    }
+*/
 
 		    
 	    // Use Objectify to save the greeting and now() is used to make the call synchronously as we

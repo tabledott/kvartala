@@ -96,35 +96,6 @@ catch (IOException e) {
 HashMap<String, KvartaliVisualizer> kvartaliParsed= new HashMap<String, KvartaliVisualizer>();
 
 List<Kvartal> allKvartalDatabase = ObjectifyService.ofy().load().type(Kvartal.class).list();
-/*
-List<Kvartal> allKvartalDatabase = new LinkedList<Kvartal>();
-
-try {
-
-	String sCurrentLine;
-	
-	br = new BufferedReader(
-			   new InputStreamReader(
-	                      new FileInputStream("kvartaliDatabase.txt"), "UTF-8"));
-
-//	br = new BufferedReader(new FileReader("kvartali.txt"));
-	int counter = 0;
-	while ((sCurrentLine = br.readLine()) != null) {
-		//<option value="5">Младост</option> 	
-		allKvartalDatabase.add(new Kvartal(sCurrentLine));
-	}
-
-}
-catch (IOException e) {
-	e.printStackTrace();
-} finally {
-	try {
-		if (br != null)br.close();
-	} catch (IOException ex) {
-		ex.printStackTrace();
-	}
-}
-*/
 
 KvartaliVisualizer tmp;
 

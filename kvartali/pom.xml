@@ -9,7 +9,7 @@
     <artifactId>kvartali</artifactId>
 
     <properties>
-        <app.id>kvartali-sofia</app.id>
+        <app.id>kvartali-1184</app.id>
         <app.version>1</app.version>
         <appengine.version>1.9.30</appengine.version>
         <gcloud.plugin.version>2.0.9.74.v20150814</gcloud.plugin.version>
@@ -51,7 +51,7 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-
+		
         <!-- Test Dependencies -->
         <dependency>
             <groupId>com.google.appengine</groupId>
