@@ -36,8 +36,10 @@
 <!-- <img src="images/sofia.jpg" class="sofia" style="width:304px;height:228px;"/>
 -->
 
-Идеята на приложението е да се даде оценка на кварталите на София от 2 до 6. <br>  <br> 
-	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. <br> <br> 
+Идеята на приложението е да се даде оценка на кварталите на София от 2 до 6 и 
+да се определи кой е най-предпочитания квартал за живеене <br>  <br> 
+	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. Може да сортирате по брой мнения или средна оценка.
+	Средната оценка е сумата на всички критерии, разделено на броя им.<br> <br> 
 	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com
 	
 <form accept-charset="UTF-8" action="/kvartali.jsp" method="get">	
@@ -94,6 +96,35 @@ catch (IOException e) {
 HashMap<String, KvartaliVisualizer> kvartaliParsed= new HashMap<String, KvartaliVisualizer>();
 
 List<Kvartal> allKvartalDatabase = ObjectifyService.ofy().load().type(Kvartal.class).list();
+/*
+List<Kvartal> allKvartalDatabase = new LinkedList<Kvartal>();
+
+try {
+
+	String sCurrentLine;
+	
+	br = new BufferedReader(
+			   new InputStreamReader(
+	                      new FileInputStream("kvartaliDatabase.txt"), "UTF-8"));
+
+//	br = new BufferedReader(new FileReader("kvartali.txt"));
+	int counter = 0;
+	while ((sCurrentLine = br.readLine()) != null) {
+		//<option value="5">Младост</option> 	
+		allKvartalDatabase.add(new Kvartal(sCurrentLine));
+	}
+
+}
+catch (IOException e) {
+	e.printStackTrace();
+} finally {
+	try {
+		if (br != null)br.close();
+	} catch (IOException ex) {
+		ex.printStackTrace();
+	}
+}
+*/
 
 KvartaliVisualizer tmp;
 

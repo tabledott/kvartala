@@ -33,6 +33,12 @@
 			<artifactId>objectify</artifactId>
 			<version>4.0.1</version>
 		</dependency>
+		<dependency>
+			 <groupId>com.google.appengine</groupId>
+			 <artifactId>appengine-api-labs</artifactId>
+			 <version>1.9.30</version>
+			 <!-- <scope>test</scope> -->
+		</dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>

@@ -22,6 +22,25 @@
         <welcome-file>kvartali.jsp</welcome-file>
     </welcome-file-list>
 
+<servlet>
+  <servlet-name>appstats</servlet-name>
+  <servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>appstats</servlet-name>
+  <url-pattern>/appstats/*</url-pattern>
+</servlet-mapping>
+
+<security-constraint>
+  <web-resource-collection>
+    <web-resource-name>appstats</web-resource-name>
+    <url-pattern>/appstats/*</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+    <role-name>admin</role-name>
+  </auth-constraint>
+</security-constraint>
 
 
 <filter>
@@ -35,6 +54,16 @@
 <listener>
   <listener-class>com.kvartali.OfyHelper</listener-class>
 </listener>
+
+<filter>
+  <filter-name>appstats</filter-name>
+   <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
+</filter>
+
+<filter-mapping>
+  <filter-name>appstats</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>
 
 </web-app>
 

@@ -1,6 +1,10 @@
 package com.kvartali;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Random;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -66,12 +70,19 @@ public class AddKvartalServlet extends HttpServlet {
 		    
 		    kvartal = new Kvartal(name,  location, parks,  crime,
 		    				 transport,  infrastructure, facilities,  buildings,  shops, opinion);
+	    	
+		    ObjectifyService.ofy().save().entity(kvartal).now();
+
 		    
-		    System.out.println("Adding kvartal: " + kvartal);
 	    // Use Objectify to save the greeting and now() is used to make the call synchronously as we
 	    // will immediately get a new page using redirect and we want the data to be present.
-	    ObjectifyService.ofy().save().entity(kvartal).now();
-
+		    //Writes to database in debug
+		  /*  for(int i = 0;i < 50; i++){
+		    	Random r = new Random();
+		    	kvartal.setLocation((short) r.nextInt(Short.MAX_VALUE + 1));
+			    System.out.println("Adding kvartal: " + kvartal);
+		    	ObjectifyService.ofy().save().entity(kvartal).now();
+		    } */
 	    resp.sendRedirect("/kvartali.jsp");
 	  }
 
