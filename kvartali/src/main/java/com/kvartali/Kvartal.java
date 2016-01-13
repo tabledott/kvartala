@@ -37,7 +37,30 @@ public class Kvartal implements java.io.Serializable{
 
 	}
 	
-	public void addKvartal(byte location, byte parks, byte crime,
+	//used to generate sample starting data
+	public Kvartal(String name, double location, double parks, double crime,
+			double transport,  double infrastructure, double facilities,  double buildings, double shops, int numOpinions){
+		this.name = name;
+		sumStatistics = new short[NUMBER_STATISTICS];
+		countStatistics= new short[NUMBER_STATISTICS];
+		opinions = new LinkedList<>();
+
+		sumStatistics[0] = (short) (location * numOpinions);
+		sumStatistics[1] = (short) (parks * numOpinions);
+		sumStatistics[2] = (short) (crime * numOpinions);
+		sumStatistics[3] = (short) (transport * numOpinions);
+		sumStatistics[4] = (short) (infrastructure * numOpinions);
+		sumStatistics[5] = (short) (facilities * numOpinions);
+		sumStatistics[6] = (short) (buildings * numOpinions);
+		sumStatistics[7] = (short) (shops * numOpinions);
+		
+		for(int i = 0; i < 8; i++) {
+			countStatistics[i] = (short)numOpinions;
+		}
+		allStatistics = (short)numOpinions;
+	}
+	
+	public void addKvartal(String name, byte location, byte parks, byte crime,
 			byte transport,  byte infrastructure, byte facilities,  byte buildings, byte shops, String opinion){
 		if(location>0){
 			this.countStatistics[0]++;
@@ -111,104 +134,11 @@ public class Kvartal implements java.io.Serializable{
 		this.name = name;
 	}
 
-	public LinkedList<String> getOpinion() {
+	public LinkedList<String> getOpinions() {
 		return opinions;
 	}
 	public void addOpinion(String opinion) {
 		opinions.add(opinion);
 	}
 
-	
-	//decodirane ot 5-ti4na brojna sistema ot 2 do 6
-	/*
-	 * public Kvartal(String name, short location, short parks, short crime,
-			short transport, short infrastructure, short facilities, short buildings, short shops,
-			String opinion) {
-		super();
-		this.name = name;
-		this.opinion = opinion;
-	}
-
-	public Kvartal(String name, int ocenka, String opinion){
-		statistics = new
-		this.setOcenka(ocenka);
-		this.name = name;
-		this.opinion = opinion;
-		
-		this.location = (short)(ocenka%5 + 2);
-		ocenka/=5;
-		this.parks = (short)(ocenka%5 +2);
-		ocenka/=5;
-		this.crime = (short)(ocenka%5 +2);
-		ocenka/=5;
-		this.transport = (short)(ocenka%5 +2);
-		ocenka/=5;
-		this.infrastructure = (short)(ocenka%5 +2);
-		ocenka/=5;
-		this.facilities = (short)(ocenka%5 + 2);
-		ocenka/=5;
-		this.buildings = (short)(ocenka%5 + 2);
-		ocenka/=5;
-		this.shops = (short)(ocenka%5 + 2);
-		ocenka/=5;
-	} */
-	
-		/*
-	 * Adding kvartal: Kvartal [kvartalId=null, name=Банишора, location=3, parks=4, crime=5, transport=4, infrastructure=5, facilities=3, buildings=3, shops=2, opinion=test]
-
-	 * kvartalId=" + kvartalId + ", name=" + name
-				+ ", location=" + location + ", parks=" + parks + ", crime="
-				+ crime + ", transport=" + transport + ", infrastructure="
-				+ infrastructure + ", facilities=" + facilities
-				+ ", buildings=" + buildings + ", shops=" + shops
-				+ ", opinion=" + opinion + "]";
-
-	 */
-	/*
-	public Kvartal(String kvartalfromString){
-		String[] data = kvartalfromString.split(",");
-		this.name = data[0];
-		this.location = Short.parseShort(data[1]);
-		this.parks = Short.parseShort(data[2]);
-		this.crime = Short.parseShort(data[3]);
-		this.transport = Short.parseShort(data[4]);
-		this.infrastructure = Short.parseShort(data[5]);
-		this.facilities = Short.parseShort(data[6]);
-		this.buildings = Short.parseShort(data[7]);
-		this.shops = Short.parseShort(data[8]);
-		this.opinion = data[9];
-	}
-	*/
-	
-	//Дружба 2!&45655!&Италиянския квартал@@@Дружба 1!&6867!&София, мамо, София@@@
-	/*public String encodeToString(){
-		return this.name+"!&"+this.getOcenka()+"!&"+this.opinion+"@@@";
-	}
-	*//*
-	public int getOcenka() {
-		int t = 1;
-		int res = 0;
-		res+=(this.location-2)*t;
-		t*=5;
-		res+=(this.parks-2)*t;
-		t*=5;
-		res+=(this.crime-2)*t;
-		t*=5;
-		res+=(this.transport-2)*t;
-		t*=5;
-		res+=(this.infrastructure-2)*t;
-		t*=5;
-		res+=(this.facilities-2)*t;
-		t*=5;
-		res+=(this.buildings-2)*t;
-		t*=5;
-		res+=(this.shops-2)*t;
-		t*=5;
-		return res;
-	}
-
-	public void setOcenka(int ocenka) {
-		this.ocenka = ocenka;
-	}
-	*/
 }

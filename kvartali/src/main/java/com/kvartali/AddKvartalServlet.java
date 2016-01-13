@@ -80,14 +80,14 @@ public class AddKvartalServlet extends HttpServlet {
 		    	next = new Kvartal();
 		    }
 		    
-		    next.addKvartal(location, parks, crime, transport, infrastructure, facilities, buildings, shops, opinion);
+		    next.addKvartal(name, location, parks, crime, transport, infrastructure, facilities, buildings, shops, opinion);
 		    syncCache.put(name, next); // Populate cache.
 
 		    //TODO: Use Database?
+		    
 		    /*
-		    ObjectifyService.ofy().delete().entity(allKvartali);
-		    allKvartali.addKvartal(kvartal);
-		    ObjectifyService.ofy().save().entity(allKvartali).now();
+		    ObjectifyService.ofy().delete().entity(next);
+		    ObjectifyService.ofy().save().entity(next).now();
 		    */
 		   //ObjectifyService.ofy().save().
 		    resp.sendRedirect("/kvartali.jsp");

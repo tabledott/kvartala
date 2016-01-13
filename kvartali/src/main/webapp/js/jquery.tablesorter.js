@@ -106,7 +106,7 @@
 				headers: {},
 				widthFixed: false,
 				cancelSelection: true,
-				sortList: [],
+				sortList: [[10,1]],
 				headerList: [],
 				dateFormat: "us",
 				decimal: '.',

@@ -12,6 +12,7 @@
 <%@ page import="java.util.List" %>
 
 <%@ page import="com.kvartali.Kvartal" %>
+<%@ page import="com.kvartali.SampleResults" %>
 <%@ page import="com.kvartali.OfyHelper" %>
 
 <%@ page import="java.util.logging.Level" %>
@@ -47,7 +48,8 @@
 да се определи кой е най-предпочитания квартал за живеене <br>  <br> 
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. Може да сортирате по брой мнения или средна оценка.
 	Средната оценка е сумата на всички критерии, разделено на броя им.<br> <br> 
-	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com
+	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com <br>
+	Под публични сгради се разбират училища, детски градини, болници и и т.н.
 	
 <form accept-charset="UTF-8" action="/kvartali.jsp" method="get">	
 <table id="insured_list" class="tablesorter"> 
@@ -56,7 +58,7 @@
        <th>Квартал</th>
 	  <th>Местоположение</th>      
 	  <th>Паркове, зеленина</th>
-	  <th>Престъпност</th>
+	  <th>Сигурност</th>
 	  <th>Инфраструктура</th>
 	  <th>Транспорт</th>
 	  <th>Публични сгради</th>
@@ -98,9 +100,19 @@ catch (IOException e) {
 	}
 }
 
-//parsing kvartalite
 MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
+
+//initial initialization because sometimes data is lost.
+/*
+SampleResults sample = new SampleResults();
+Kvartal[] samples = sample.generateData();
+for(int i = 0; i <samples.length; i++){
+	syncCache.put(samples[i].getName(), samples[i]);
+}
+*/
+
+//parsing kvartalite
 Kvartal tmp;
 
 	//visualize the data for each Kvartal
@@ -110,7 +122,7 @@ Kvartal tmp;
 			tmp = (Kvartal) syncCache.get(kvartali_names.get(i)); // Read from cache.
 		}
 		else{
-			tmp = new Kvartal();
+			tmp = new Kvartal(); //empty kvartal
 		}
 		double[] averages = tmp.returnStatistics();
 %>
