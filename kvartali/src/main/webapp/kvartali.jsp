@@ -13,8 +13,13 @@
 
 <%@ page import="com.kvartali.Kvartal" %>
 <%@ page import="com.kvartali.OfyHelper" %>
-<%@ page import="com.kvartali.KvartaliVisualizer" %>
-<%@ page import="com.kvartali.KvartalDatabase" %>
+
+<%@ page import="java.util.logging.Level" %>
+
+<%@ page import="com.google.appengine.api.memcache.ErrorHandlers" %>
+<%@ page import="com.google.appengine.api.memcache.MemcacheServiceFactory" %>
+<%@ page import="com.google.appengine.api.memcache.MemcacheService" %>
+<%@ page import="com.google.appengine.api.memcache.MemcacheServiceFactory" %>
 
 <%@ page import="com.googlecode.objectify.Key" %>
 <%@ page import="com.googlecode.objectify.Objectify" %>
@@ -79,7 +84,6 @@ try {
 //	br = new BufferedReader(new FileReader("kvartali.txt"));
 	int counter = 0;
 	while ((sCurrentLine = br.readLine()) != null) {
-		//<option value="5">Младост</option> 	
 		kvartali_names.add(sCurrentLine);
 	}
 
@@ -95,56 +99,27 @@ catch (IOException e) {
 }
 
 //parsing kvartalite
-HashMap<String, KvartaliVisualizer> kvartaliParsed= new HashMap<String, KvartaliVisualizer>();
+MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
+Kvartal tmp;
 
-List<Kvartal> allKvartalDatabase = ObjectifyService.ofy().load().type(Kvartal.class).list();
-
-KvartaliVisualizer tmp;
-
-for(int i = 0; i < allKvartalDatabase.size(); i++){
-	
-	if(!kvartaliParsed.containsKey(allKvartalDatabase.get(i).getName())){
-		tmp = new KvartaliVisualizer(allKvartalDatabase.get(i).getName());
-	}
-	else{
-		//use kvartal from the hashmap
-		 tmp = (KvartaliVisualizer)kvartaliParsed.get(allKvartalDatabase.get(i).getName());
-	}
-	tmp.addKvartal(allKvartalDatabase.get(i));
-	kvartaliParsed.put(allKvartalDatabase.get(i).getName(), tmp);
-
-}
-
-//Used for debugging purposes we have the data now
-/*
-for (String name: kvartaliParsed.keySet()){
-
-    String key =name.toString();
-    String value = kvartaliParsed.get(name).toString();  
-    System.out.println(key + " " + value.toString());  
-} 
-*/
 	//visualize the data for each Kvartal
-			
 	for (int i =0; i<kvartali_names.size(); i++ ){
-		if(kvartaliParsed.containsKey(kvartali_names.get(i))){
-			tmp = kvartaliParsed.get(kvartali_names.get(i));
+		
+		if (syncCache.contains(kvartali_names.get(i))){
+			tmp = (Kvartal) syncCache.get(kvartali_names.get(i)); // Read from cache.
 		}
 		else{
-			tmp = new KvartaliVisualizer(kvartali_names.get(i));
+			tmp = new Kvartal();
 		}
-		tmp.visualize();
+		double[] averages = tmp.returnStatistics();
 %>
 
 <tr> 
-    <td><%=tmp.name%></td> 
+    <td><%=kvartali_names.get(i)%></td> 
     <% for(int j = 0; j<tmp.NUMBER_STATISTICS; j++) {%>
-    <td><%=tmp.averages[j]%></td>
-  
-    
-<%	
-       }
-    %>
+    <td><%=averages[j]%></td>
+  	<% }%>
     
     <td><%=tmp.allStatistics%></td>
 	<% }%>

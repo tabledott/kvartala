@@ -1,35 +1,136 @@
 package com.kvartali;
 
 
+import java.util.HashMap;
+import java.util.LinkedList;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
+/*
+ * Всеки квартал ще си пази статистиките като при добавяне на нов квартал се преизчисляват и се връщат като
+ * double масив.
+ */
 @Entity 
-public class Kvartal {
+public class Kvartal implements java.io.Serializable{
 	
+	private static final long serialVersionUID = -4840857086217453429L;
+
 	@Id
 	private Long kvartalId;
 	
 	private String name;
-	private short location;
-	private short parks;
-	private short crime;
-	private short transport;
-	private short infrastructure;
-	private short facilities;
-	private short buildings;
-	private short shops;
-	//w петорна бройна система, за да пазим памет
-	private int ocenka;
-	private String opinion;
+	public final int NUMBER_STATISTICS = 9; 
 	
+	short[] sumStatistics;
+	short[] countStatistics;
+
+	private LinkedList<String> opinions;
+	public short allStatistics;
 	
 	public Kvartal() {
 		super();
+		sumStatistics = new short[NUMBER_STATISTICS];
+		countStatistics= new short[NUMBER_STATISTICS];
+		opinions = new LinkedList<>();
+		allStatistics = 0;
+
 	}
 	
+	public void addKvartal(byte location, byte parks, byte crime,
+			byte transport,  byte infrastructure, byte facilities,  byte buildings, byte shops, String opinion){
+		if(location>0){
+			this.countStatistics[0]++;
+			this.sumStatistics[0]+=location;
+		}
+		if(parks>0){
+			this.countStatistics[1]++;
+			this.sumStatistics[1]+=parks;
+		}
+		if(crime>0){
+			this.countStatistics[2]++;
+			this.sumStatistics[2]+=crime;
+		}
+		if(transport>0){
+			this.countStatistics[3]++;
+			this.sumStatistics[3]+=transport;
+		}
+		if(infrastructure>0){
+			this.countStatistics[4]++;
+			this.sumStatistics[4]+=infrastructure;
+		}
+		
+		if(facilities>0){
+			this.countStatistics[5]++;
+			this.sumStatistics[5]+=facilities;
+		}
+		if(buildings>0){
+			this.countStatistics[6]++;
+			this.sumStatistics[6]+=buildings;
+		}
+		if(shops>0){
+			this.countStatistics[7]++;
+			this.sumStatistics[7]+=shops;
+		}
+		
+		if(opinion!=null && opinion.length() > 0){
+			opinions.add(opinion);
+		}
+		
+		// here we count all the evaluations
+		allStatistics++;
+	}
+	
+	public double[]  returnStatistics(){
+		double[] result = new double[NUMBER_STATISTICS];
+		for (int i = 0; i < NUMBER_STATISTICS; i++){
+			if(this.countStatistics[i]>0){
+				result[i] = (double)this.sumStatistics[i]/this.countStatistics[i];
+			}
+			else{
+				result[i] = 0;
+			}
+			
+			result[i] = Double.parseDouble(String.format( "%.2f", result[i])); 
+		}
+		//calculate the average result
+		for(int j =0; j<7;j++){
+			result[8] += result[j];
+		}
+		result[8]/=7;
+
+		result[8] = Double.parseDouble(String.format( "%.2f", result[8])); 
+		
+		return result;
+	}
+
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public LinkedList<String> getOpinion() {
+		return opinions;
+	}
+	public void addOpinion(String opinion) {
+		opinions.add(opinion);
+	}
+
+	
 	//decodirane ot 5-ti4na brojna sistema ot 2 do 6
+	/*
+	 * public Kvartal(String name, short location, short parks, short crime,
+			short transport, short infrastructure, short facilities, short buildings, short shops,
+			String opinion) {
+		super();
+		this.name = name;
+		this.opinion = opinion;
+	}
+
 	public Kvartal(String name, int ocenka, String opinion){
+		statistics = new
 		this.setOcenka(ocenka);
 		this.name = name;
 		this.opinion = opinion;
@@ -50,24 +151,9 @@ public class Kvartal {
 		ocenka/=5;
 		this.shops = (short)(ocenka%5 + 2);
 		ocenka/=5;
-	}
+	} */
 	
-	public Kvartal(String name, short location, short parks, short crime,
-			short transport, short infrastructure, short facilities, short buildings, short shops,
-			String opinion) {
-		super();
-		this.name = name;
-		this.location = location;
-		this.parks = parks;
-		this.crime = crime;
-		this.transport = transport;
-		this.facilities = facilities;
-		this.buildings = buildings;
-		this.infrastructure = infrastructure;
-		this.shops = shops;
-		this.opinion = opinion;
-	}
-	/*
+		/*
 	 * Adding kvartal: Kvartal [kvartalId=null, name=Банишора, location=3, parks=4, crime=5, transport=4, infrastructure=5, facilities=3, buildings=3, shops=2, opinion=test]
 
 	 * kvartalId=" + kvartalId + ", name=" + name
@@ -78,6 +164,7 @@ public class Kvartal {
 				+ ", opinion=" + opinion + "]";
 
 	 */
+	/*
 	public Kvartal(String kvartalfromString){
 		String[] data = kvartalfromString.split(",");
 		this.name = data[0];
@@ -91,82 +178,13 @@ public class Kvartal {
 		this.shops = Short.parseShort(data[8]);
 		this.opinion = data[9];
 	}
+	*/
 	
 	//Дружба 2!&45655!&Италиянския квартал@@@Дружба 1!&6867!&София, мамо, София@@@
-	public String encodeToString(){
+	/*public String encodeToString(){
 		return this.name+"!&"+this.getOcenka()+"!&"+this.opinion+"@@@";
 	}
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public short getLocation() {
-		return location;
-	}
-	public void setLocation(short location) {
-		this.location = location;
-	}
-	public short getParks() {
-		return parks;
-	}
-	public void setParks(short parks) {
-		this.parks = parks;
-	}
-	public short getCrime() {
-		return crime;
-	}
-	public void setCrime(short crime) {
-		this.crime = crime;
-	}
-	public short getTransport() {
-		return transport;
-	}
-	public short getInfrastructure() {
-		return infrastructure;
-	}
-	public void setInfrastructure(short infrastructure) {
-		this.infrastructure = infrastructure;
-	}
-	public void setTransport(short transport) {
-		this.transport = transport;
-	}
-	public short getFacilities() {
-		return facilities;
-	}
-	public void setFacilities(short facilities) {
-		this.facilities = facilities;
-	}
-	public short getBuildings() {
-		return buildings;
-	}
-	public void setBuildings(short buildings) {
-		this.buildings = buildings;
-	}
-	public short getShops() {
-		return shops;
-	}
-	public void setShops(short shops) {
-		this.shops = shops;
-	}
-	public String getOpinion() {
-		return opinion;
-	}
-	public void setOpinion(String opinion) {
-		this.opinion = opinion;
-	}
-	@Override
-	public String toString() {
-		return "Kvartal [kvartalId=" + kvartalId + ", name=" + name
-				+ ", location=" + location + ", parks=" + parks + ", crime="
-				+ crime + ", transport=" + transport + ", infrastructure="
-				+ infrastructure + ", facilities=" + facilities
-				+ ", buildings=" + buildings + ", shops=" + shops
-				+ ", opinion=" + opinion + "]";
-	}
-
+	*//*
 	public int getOcenka() {
 		int t = 1;
 		int res = 0;
@@ -192,5 +210,5 @@ public class Kvartal {
 	public void setOcenka(int ocenka) {
 		this.ocenka = ocenka;
 	}
-	
+	*/
 }
