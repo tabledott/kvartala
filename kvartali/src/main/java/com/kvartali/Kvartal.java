@@ -1,11 +1,14 @@
 package com.kvartali;
 
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 /*
  * Всеки квартал ще си пази статистиките като при добавяне на нов квартал се преизчисляват и се връщат като
@@ -26,13 +29,14 @@ public class Kvartal implements java.io.Serializable{
 	short[] countStatistics;
 
 	private LinkedList<String> opinions;
+	
 	public short allStatistics;
 	
 	public Kvartal() {
 		super();
 		sumStatistics = new short[NUMBER_STATISTICS];
 		countStatistics= new short[NUMBER_STATISTICS];
-		opinions = new LinkedList<>();
+		this.opinions = new LinkedList<String>();
 		allStatistics = 0;
 
 	}
@@ -43,8 +47,8 @@ public class Kvartal implements java.io.Serializable{
 		this.name = name;
 		sumStatistics = new short[NUMBER_STATISTICS];
 		countStatistics= new short[NUMBER_STATISTICS];
-		opinions = new LinkedList<>();
-
+		this.opinions = new LinkedList<String>();
+		
 		sumStatistics[0] = (short) (location * numOpinions);
 		sumStatistics[1] = (short) (parks * numOpinions);
 		sumStatistics[2] = (short) (crime * numOpinions);
@@ -62,6 +66,7 @@ public class Kvartal implements java.io.Serializable{
 	
 	public void addKvartal(String name, byte location, byte parks, byte crime,
 			byte transport,  byte infrastructure, byte facilities,  byte buildings, byte shops, String opinion){
+		this.name = name;
 		if(location>0){
 			this.countStatistics[0]++;
 			this.sumStatistics[0]+=location;
@@ -97,7 +102,7 @@ public class Kvartal implements java.io.Serializable{
 		}
 		
 		if(opinion!=null && opinion.length() > 0){
-			opinions.add(opinion);
+			this.opinions.add(opinion);
 		}
 		
 		// here we count all the evaluations
@@ -117,10 +122,18 @@ public class Kvartal implements java.io.Serializable{
 			result[i] = Double.parseDouble(String.format( "%.2f", result[i])); 
 		}
 		//calculate the average result
+		short counter = 0;
 		for(int j =0; j<7;j++){
+			if(result[j] > 0) {
+				counter++;
+			}
 			result[8] += result[j];
 		}
-		result[8]/=7;
+		
+		if(counter > 0)
+			result[8]/=counter;
+		else
+			result[8] = 0;
 
 		result[8] = Double.parseDouble(String.format( "%.2f", result[8])); 
 		
@@ -134,11 +147,16 @@ public class Kvartal implements java.io.Serializable{
 		this.name = name;
 	}
 
-	public LinkedList<String> getOpinions() {
-		return opinions;
-	}
 	public void addOpinion(String opinion) {
-		opinions.add(opinion);
+		this.opinions.add(opinion);
+	}
+
+	@Override
+	public String toString() {
+		return "Kvartal [name=" + name + ", sumStatistics="
+				+ Arrays.toString(sumStatistics) + ", countStatistics="
+				+ Arrays.toString(countStatistics) + ", opinions=" + opinions
+				+ ", allStatistics=" + allStatistics + "]";
 	}
 
 }

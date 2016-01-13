@@ -42,8 +42,7 @@
 <body>
 
 <!-- <img src="images/sofia.jpg" class="sofia" style="width:304px;height:228px;"/>
--->
-
+ -->
 Идеята на приложението е да се даде оценка на кварталите на София от 2 до 6 и 
 да се определи кой е най-предпочитания квартал за живеене <br>  <br> 
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. Може да сортирате по брой мнения или средна оценка.
@@ -75,6 +74,7 @@ response.setCharacterEncoding( "UTF-8" );
 //get the names from the text file.
 BufferedReader br = null;
 LinkedList<String> kvartali_names = new LinkedList<String>();
+
 try {
 
 	String sCurrentLine;
@@ -103,23 +103,49 @@ catch (IOException e) {
 MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
 
-//initial initialization because sometimes data is lost.
-/*
-SampleResults sample = new SampleResults();
-Kvartal[] samples = sample.generateData();
-for(int i = 0; i <samples.length; i++){
-	syncCache.put(samples[i].getName(), samples[i]);
-}
-*/
-
 //parsing kvartalite
 Kvartal tmp;
+int countKvartali = 0;
 
-	//visualize the data for each Kvartal
+for (int i =0; i<kvartali_names.size(); i++ ){
+	if (syncCache.contains(kvartali_names.get(i))){
+		countKvartali++;// Read from cache.
+	}
+}
+	
+//System.out.println("Count kvartali: " + countKvartali);
+
+//initial initialization because sometimes data is lost.
+if (countKvartali < 50) {
+
+	List<Kvartal> kvartali = ObjectifyService.ofy()
+		.load()
+		.type(Kvartal.class).list(); // Taking all kvartali from the database!
+
+		//we assume the database has the correct results!
+		for(int i =0; i < kvartali.size(); i++){
+			//System.out.println("Getting kvartal from DB " + kvartali.get(i).getName());
+
+			if(kvartali.get(i).getName()!=null){
+				syncCache.put(kvartali.get(i).getName(), kvartali.get(i));
+			}
+		}
+	
+	//not including samples
+	/*
+	SampleResults sample = new SampleResults();
+	Kvartal[] samples = sample.generateData();
+	for(int i = 0; i <samples.length; i++){
+		syncCache.put(samples[i].getName(), samples[i]);
+	}
+	*/
+}
+
+//visualize the data for each Kvartal
 	for (int i =0; i<kvartali_names.size(); i++ ){
 		
 		if (syncCache.contains(kvartali_names.get(i))){
-			tmp = (Kvartal) syncCache.get(kvartali_names.get(i)); // Read from cache.
+			tmp = (Kvartal) syncCache.get(kvartali_names.get(i)); 
 		}
 		else{
 			tmp = new Kvartal(); //empty kvartal

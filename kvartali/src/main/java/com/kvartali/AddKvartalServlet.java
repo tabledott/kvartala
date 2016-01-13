@@ -66,11 +66,7 @@ public class AddKvartalServlet extends HttpServlet {
 	    }
 
 		  String opinion = req.getParameter("opinion");
-		    if(opinion == null) { opinion = "";}
-		    
-		  //  kvartal = new Kvartal(name,  location, parks,  crime,
-		    //				 transport,  infrastructure, facilities,  buildings,  shops, opinion);
-		      
+		    if(opinion == null) { opinion = "";}		      
 		    
 		    MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		    syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
@@ -82,14 +78,20 @@ public class AddKvartalServlet extends HttpServlet {
 		    
 		    next.addKvartal(name, location, parks, crime, transport, infrastructure, facilities, buildings, shops, opinion);
 		    syncCache.put(name, next); // Populate cache.
-
-		    //TODO: Use Database?
-		    
-		    /*
-		    ObjectifyService.ofy().delete().entity(next);
+		 
+		    // Add to the database
 		    ObjectifyService.ofy().save().entity(next).now();
+
+		    /*
+		    SampleResults tmp = new SampleResults();
+		    Kvartal[] kvartals = tmp.generateData();
+		    for( int i = 0; i < kvartals.length; i++){
+		    // Add to the database
+		    	next = kvartals[i];
+		    	//System.out.println("Writing in the database: " + next.getName());
+		    	ObjectifyService.ofy().save().entity(next).now();
+		    }
 		    */
-		   //ObjectifyService.ofy().save().
 		    resp.sendRedirect("/kvartali.jsp");
 
 	  }
