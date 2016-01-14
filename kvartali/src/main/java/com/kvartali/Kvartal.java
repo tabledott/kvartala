@@ -4,6 +4,7 @@ package com.kvartali;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -64,36 +65,40 @@ public class Kvartal implements java.io.Serializable{
 	public void addKvartal(String name, byte location, byte parks, byte crime,
 			byte transport,  byte infrastructure, byte facilities,  byte buildings, byte shops, String opinion){
 		this.name = name;
-		if(location>0){
+		
+		if(location>=2 && location<=6){
 			this.countStatistics[0]++;
 			this.sumStatistics[0]+=location;
 		}
-		if(parks>0){
+		if(parks>=2 && parks<=6){
 			this.countStatistics[1]++;
 			this.sumStatistics[1]+=parks;
 		}
-		if(crime>0){
+		
+		if(crime>=2 && crime<=6){
 			this.countStatistics[2]++;
 			this.sumStatistics[2]+=crime;
 		}
-		if(transport>0){
+		
+		if(transport>=2 && transport<=6){
 			this.countStatistics[3]++;
-			this.sumStatistics[3]+=transport;
+			this.sumStatistics[3]+=transport;//
 		}
-		if(infrastructure>0){
+		
+		if(infrastructure>=2 && infrastructure<=6){
 			this.countStatistics[4]++;
 			this.sumStatistics[4]+=infrastructure;
 		}
 		
-		if(facilities>0){
+		if(facilities>=2 && facilities<=6){
 			this.countStatistics[5]++;
 			this.sumStatistics[5]+=facilities;
 		}
-		if(buildings>0){
+		if(buildings>=2 && buildings<=6){
 			this.countStatistics[6]++;
 			this.sumStatistics[6]+=buildings;
 		}
-		if(shops>0){
+		if(shops>=2 && shops<=6){
 			this.countStatistics[7]++;
 			this.sumStatistics[7]+=shops;
 		}

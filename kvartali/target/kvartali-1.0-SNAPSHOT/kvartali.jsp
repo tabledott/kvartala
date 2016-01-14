@@ -113,17 +113,9 @@ for (int i =0; i<kvartali_names.size(); i++ ){
 		countKvartali++;// Read from cache.
 	}
 }
-	
-//System.out.println("Count kvartali: " + countKvartali);
-/*	List<Kvartal> kvartali1 = ObjectifyService.ofy()
-		.load()
-		.type(Kvartal.class).list(); // Taking all kvartali from the database!
 
-		//we assume the database has the correct results!
-		for(int i =0; i < kvartali1.size(); i++){
-			System.out.println("Getting kvartal from DB " + kvartali1.get(i).toString());
-		} */
-		
+//syncCache.delete("Левски A");
+
 //initial initialization from database because sometimes data is lost.
 if (countKvartali < 50) {
 
@@ -133,7 +125,6 @@ if (countKvartali < 50) {
 
 		//we assume the database has the correct results!
 		for(int i =0; i < kvartali.size(); i++){
-			//System.out.println("Getting kvartal from DB " + kvartali.get(i).getName());
 
 			if(kvartali.get(i).getName()!=null){
 				syncCache.put(kvartali.get(i).getName(), kvartali.get(i));
