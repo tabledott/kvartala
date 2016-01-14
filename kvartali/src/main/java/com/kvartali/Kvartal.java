@@ -5,10 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
 
 /*
  * Всеки квартал ще си пази статистиките като при добавяне на нов квартал се преизчисляват и се връщат като
@@ -19,16 +17,15 @@ public class Kvartal implements java.io.Serializable{
 	
 	private static final long serialVersionUID = -4840857086217453429L;
 
-	@Id
-	private Long kvartalId;
-	
+	//the Id is the key
+	@Id	
 	private String name;
 	public final int NUMBER_STATISTICS = 9; 
 	
-	short[] sumStatistics;
-	short[] countStatistics;
+	public short[] sumStatistics;
+	public short[] countStatistics;
 
-	private LinkedList<String> opinions;
+	public LinkedList<String> opinions;
 	
 	public short allStatistics;
 	

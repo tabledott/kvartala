@@ -33,7 +33,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
 <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Квартали на София</title>
+    <title>Кварталите на София</title>
 	<link rel="stylesheet" href="./css/style.css" type="text/css" />
 	<script type="text/javascript" src="./js/jquery-1.3.1.min.js"></script>
 	<script type="text/javascript" src="./js/jquery.tablesorter.js"></script>
@@ -43,8 +43,9 @@
 
 <!-- <img src="images/sofia.jpg" class="sofia" style="width:304px;height:228px;"/>
  -->
-Идеята на приложението е да се даде оценка на кварталите на София от 2 до 6 и 
-да се определи кой е най-предпочитания квартал за живеене <br>  <br> 
+	Kvartali.info изследва кой е най-предпочитаният квартал за живеене в София. <br>  <br>
+	По население Люлин е сравним с Бургас, Младост с Русе, Красно Село с Добрич, а Подуене със Сливен 
+	и това налага нуждата от сравнение на кварталите и добавяне на мнения за тях. 
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. Може да сортирате по брой мнения или средна оценка.
 	Средната оценка е сумата на всички критерии, разделено на броя им.<br> <br> 
 	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com <br>
@@ -114,15 +115,23 @@ for (int i =0; i<kvartali_names.size(); i++ ){
 }
 	
 //System.out.println("Count kvartali: " + countKvartali);
+/*	List<Kvartal> kvartali1 = ObjectifyService.ofy()
+		.load()
+		.type(Kvartal.class).list(); // Taking all kvartali from the database!
 
-//initial initialization because sometimes data is lost.
+		//we assume the database has the correct results!
+		for(int i =0; i < kvartali1.size(); i++){
+			System.out.println("Getting kvartal from DB " + kvartali1.get(i).toString());
+		} */
+		
+//initial initialization from database because sometimes data is lost.
 if (countKvartali < 50) {
 
 	List<Kvartal> kvartali = ObjectifyService.ofy()
 		.load()
 		.type(Kvartal.class).list(); // Taking all kvartali from the database!
 
-
+		//we assume the database has the correct results!
 		for(int i =0; i < kvartali.size(); i++){
 			//System.out.println("Getting kvartal from DB " + kvartali.get(i).getName());
 

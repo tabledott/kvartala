@@ -1,12 +1,18 @@
 package com.kvartali;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.ErrorHandlers;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.memcache.MemcacheService;
@@ -70,28 +76,24 @@ public class AddKvartalServlet extends HttpServlet {
 		    
 		    MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		    syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
+		    
 		    Kvartal next = (Kvartal) syncCache.get(name); // Read from cache.
-		  
-		    if (next == null) {
+		    if(next == null){
 		    	next = new Kvartal();
 		    }
 		    
 		    next.addKvartal(name, location, parks, crime, transport, infrastructure, facilities, buildings, shops, opinion);
-		    syncCache.put(name, next); // Populate cache.
-		 
-		    // Add to the database
-		    ObjectifyService.ofy().save().entity(next).now();
+		    syncCache.put(name, next); // Update cache.
+		    ObjectifyService.ofy().save().entity(next).now(); //Update DB
 
-		    /*
-		    SampleResults tmp = new SampleResults();
+		/*    SampleResults tmp = new SampleResults();
 		    Kvartal[] kvartals = tmp.generateData();
 		    for( int i = 0; i < kvartals.length; i++){
 		    // Add to the database
 		    	next = kvartals[i];
 		    	//System.out.println("Writing in the database: " + next.getName());
 		    	ObjectifyService.ofy().save().entity(next).now();
-		    }
-		    */
+		    } */
 		    resp.sendRedirect("/kvartali.jsp");
 
 	  }
