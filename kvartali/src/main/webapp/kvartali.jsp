@@ -10,8 +10,10 @@
 <%@ page import="java.io.FileInputStream" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Date" %>
 
 <%@ page import="com.kvartali.Kvartal" %>
+<%@ page import="com.kvartali.Opinion" %>
 <%@ page import="com.kvartali.SampleResults" %>
 <%@ page import="com.kvartali.OfyHelper" %>
 
@@ -32,7 +34,7 @@
   
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
 <head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Кварталите на София</title>
 	<link rel="stylesheet" href="./css/style.css" type="text/css" />
 	<script type="text/javascript" src="./js/jquery-1.3.1.min.js"></script>
@@ -43,7 +45,7 @@
 
 <!-- <img src="images/sofia.jpg" class="sofia" style="width:304px;height:228px;"/>
  -->
-	Kvartali.info изследва кой е най-предпочитаният квартал за живеене в София. <br>  <br>
+	Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София. <br>  <br>
 	По население Люлин е сравним с Бургас, Младост с Русе, Красно Село с Добрич, а Подуене със Сливен 
 	и това налага нуждата от сравнение на кварталите и добавяне на мнения за тях. 
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. Може да сортирате по брой мнения или средна оценка.
@@ -84,7 +86,6 @@ try {
 			   new InputStreamReader(
 	                      new FileInputStream("kvartali.txt"), "UTF-8"));
 
-//	br = new BufferedReader(new FileReader("kvartali.txt"));
 	int counter = 0;
 	while ((sCurrentLine = br.readLine()) != null) {
 		kvartali_names.add(sCurrentLine);
@@ -114,7 +115,7 @@ for (int i =0; i<kvartali_names.size(); i++ ){
 	}
 }
 
-//syncCache.delete("Левски A");
+syncCache.delete("Хаджи Димитър");
 
 //initial initialization from database because sometimes data is lost.
 if (countKvartali < 50) {
@@ -130,7 +131,14 @@ if (countKvartali < 50) {
 				syncCache.put(kvartali.get(i).getName(), kvartali.get(i));
 			}
 		}
-	
+
+		/*
+		List<Opinion> opinions = ObjectifyService.ofy()
+				.load()
+				.type(Opinion.class).list(); // Taking all opinions from the database!
+
+	syncCache.put("opinions", opinions); //update cache
+	*/
 	//not including samples
 	/*
 	SampleResults sample = new SampleResults();
@@ -141,6 +149,8 @@ if (countKvartali < 50) {
 	*/
 }
 
+LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
+
 //visualize the data for each Kvartal
 	for (int i =0; i<kvartali_names.size(); i++ ){
 		
@@ -149,6 +159,9 @@ if (countKvartali < 50) {
 		}
 		else{
 			tmp = new Kvartal(); //empty kvartal
+		}
+		for(int k = 0; k < tmp.opinions.size(); k++){
+			opinions.add( new Opinion(kvartali_names.get(i),tmp.opinions.get(k), new Date()) );
 		}
 		double[] averages = tmp.returnStatistics();
 %>
@@ -272,15 +285,32 @@ if (countKvartali < 50) {
 			<option value="5">5</option>
 			<option value="6">6</option>	
 </select>
-<br><br>Въведете мнение за квартала, който оценихте:
+<br><br>
+
+Моля, напишете мнение за квартала, който оценихте:
 <br>
+
 <textarea rows="4" cols="50" name="opinion" form="usrform">
 </textarea>
-<br><br>
-<input type="submit" value="Добави"/>
+<br /><br />
+<input type="submit" class="selected_btn" value="Добави"/>
 
 </form>
 
+
+<br> Въведени мнения от потребителите: 
+<% 
+
+for(int i = 0; i < opinions.size(); i++){ 
+%>
+<div class="comment" style="display: block;">
+				<div class="avatar">					
+				</div>
+				
+				<div class="name"><%="Квартал: " + opinions.get(i).getKvartal() %></div>
+				<p><%="Мнение: "+ opinions.get(i).getComment() %> </p>
+			</div>
+	<%} %>
 <script defer="defer">
 	$(document).ready(function() 
     { 
@@ -291,4 +321,5 @@ if (countKvartali < 50) {
 	); 
 </script>
 </body>
+
 </html>

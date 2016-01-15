@@ -2,6 +2,8 @@ package com.kvartali;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.logging.Level;
 
 import javax.servlet.http.HttpServlet;
@@ -71,9 +73,7 @@ public class AddKvartalServlet extends HttpServlet {
 	    	buildings = Byte.parseByte(req.getParameter("buildings"));
 	    }
 
-		  String opinion = req.getParameter("opinion");
-		    if(opinion == null) { opinion = "";}		      
-		    
+	    
 		    MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		    syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
 		    
@@ -82,9 +82,38 @@ public class AddKvartalServlet extends HttpServlet {
 		    	next = new Kvartal();
 		    }
 		    
-		    next.addKvartal(name, location, parks, crime, transport, infrastructure, facilities, buildings, shops, opinion);
-		    syncCache.put(name, next); // Update cache.
-		    ObjectifyService.ofy().save().entity(next).now(); //Update DB
+		    String opinion = req.getParameter("opinion");
+/*		    LinkedList<Opinion> opinionsInCache  = null;
+		    
+		    try{
+		    	opinionsInCache = (LinkedList<Opinion>)syncCache.get("opinions");
+		    	if(opinionsInCache == null){
+		    		opinionsInCache = new LinkedList<Opinion>();
+		    	} 
+		    }
+		    catch(Exception ex){
+		    	
+		    }
+		    if(opinion==null){
+		    	opinion = "";
+		    }
+		    
+		    Opinion nextOpinion = new Opinion(name, opinion, new Date());
+
+		    if(opinion!= null && opinion.length() > 0){
+		    	 opinionsInCache.add(nextOpinion); 	
+		    }
+*/
+		    
+		    if(name!=null && name.length() > 0) {
+			    next.addKvartal(name, location, parks, crime, transport, infrastructure, facilities, buildings, shops, opinion);
+			    
+			    syncCache.put(name, next); // Update cache with evaluation.
+			    //syncCache.put("opinions", opinionsInCache); // Update cache with opinion
+			    
+			    ObjectifyService.ofy().save().entity(next).now(); //Update DB
+			    //ObjectifyService.ofy().save().entity(nextOpinion).now(); //Update DB with opinion
+		    }
 
 		/*    SampleResults tmp = new SampleResults();
 		    Kvartal[] kvartals = tmp.generateData();
