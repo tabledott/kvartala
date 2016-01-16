@@ -285,7 +285,7 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 Моля, въведете мнение за квартала, който оценихте:
 <br>
 
-<textarea  class="opinion" rows="4" cols="50" name="opinion" form="usrform">
+<textarea  class="opinion" rows="4" cols="50" name="opinion">
 </textarea>
 <br /><br />
 <input type="submit" class="selected_btn" value="Добави оценките и мнението"/>

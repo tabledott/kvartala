@@ -27,12 +27,7 @@ public class AddKvartalServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html; charset=utf-8");
 		
-		Map<String, String[]> parameters = req.getParameterMap();
-		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
-	        String[] values = entry.getValue();
-	        LOG.warning("Request is: " + req.getParameterValues(values.toString()));
-		}
-	    String name = req.getParameter("kvartal");
+		String name = req.getParameter("kvartal");
 	    if(name == null) { name = "";}
 	    
 	    byte location = 0;
