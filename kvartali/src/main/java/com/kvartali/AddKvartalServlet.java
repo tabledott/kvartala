@@ -1,20 +1,14 @@
 package com.kvartali;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.memcache.ErrorHandlers;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.memcache.MemcacheService;
@@ -27,10 +21,17 @@ public class AddKvartalServlet extends HttpServlet {
 	// Process the http POST of the form
 	  @Override
 	  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-	    	    
+		  
+		final Logger LOG = Logger.getLogger(AddKvartalServlet.class.getName());
+
 		req.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html; charset=utf-8");
 		
+		Map<String, String[]> parameters = req.getParameterMap();
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+	        String[] values = entry.getValue();
+	        LOG.warning("Request is: " + req.getParameterValues(values.toString()));
+		}
 	    String name = req.getParameter("kvartal");
 	    if(name == null) { name = "";}
 	    
@@ -73,47 +74,28 @@ public class AddKvartalServlet extends HttpServlet {
 	    	buildings = Byte.parseByte(req.getParameter("buildings"));
 	    }
 
+	    MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+	    syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
 	    
-		    MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
-		    syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
-		    
-		    Kvartal next = (Kvartal) syncCache.get(name); // Read from cache.
-		    if(next == null){
-		    	next = new Kvartal();
-		    }
-		    
-		    String opinion = req.getParameter("opinion");
-/*		    LinkedList<Opinion> opinionsInCache  = null;
-		    
-		    try{
-		    	opinionsInCache = (LinkedList<Opinion>)syncCache.get("opinions");
-		    	if(opinionsInCache == null){
-		    		opinionsInCache = new LinkedList<Opinion>();
-		    	} 
-		    }
-		    catch(Exception ex){
-		    	
-		    }
-		    if(opinion==null){
-		    	opinion = "";
-		    }
-		    
-		    Opinion nextOpinion = new Opinion(name, opinion, new Date());
+	    Kvartal next = (Kvartal) syncCache.get(name); // Read from cache.
+	    if(next == null){
+	    	next = new Kvartal();
+	    }
+	    
+	    
+	    String opinion = req.getParameter("opinion");		    
+	    if(name!=null && name.length() > 0) {
 
-		    if(opinion!= null && opinion.length() > 0){
-		    	 opinionsInCache.add(nextOpinion); 	
-		    }
-*/
-		    
-		    if(name!=null && name.length() > 0) {
-			    next.addKvartal(name, location, parks, crime, transport, infrastructure, facilities, buildings, shops, opinion);
-			    
-			    syncCache.put(name, next); // Update cache with evaluation.
-			    //syncCache.put("opinions", opinionsInCache); // Update cache with opinion
-			    
-			    ObjectifyService.ofy().save().entity(next).now(); //Update DB
-			    //ObjectifyService.ofy().save().entity(nextOpinion).now(); //Update DB with opinion
-		    }
+	    	LOG.warning("Adding OP: " + name + " " + opinion );
+	    	next.addKvartal(name, location, parks, crime, transport, infrastructure, facilities, buildings, shops, opinion);
+
+		    syncCache.put(name, next); // Update cache with evaluation.
+		    //syncCache.put("opinions", opinionsInCache); // Update cache with opinion		    
+		    LOG.warning("Adding kvartaL next: " + next.toString());
+
+		    ObjectifyService.ofy().save().entity(next).now(); //Update DB
+		    //ObjectifyService.ofy().save().entity(nextOpinion).now(); //Update DB with opinion
+	    }
 
 		/*    SampleResults tmp = new SampleResults();
 		    Kvartal[] kvartals = tmp.generateData();

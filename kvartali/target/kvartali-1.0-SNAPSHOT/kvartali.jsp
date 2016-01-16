@@ -10,8 +10,10 @@
 <%@ page import="java.io.FileInputStream" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Date" %>
 
 <%@ page import="com.kvartali.Kvartal" %>
+<%@ page import="com.kvartali.Opinion" %>
 <%@ page import="com.kvartali.SampleResults" %>
 <%@ page import="com.kvartali.OfyHelper" %>
 
@@ -21,18 +23,19 @@
 <%@ page import="com.google.appengine.api.memcache.MemcacheServiceFactory" %>
 <%@ page import="com.google.appengine.api.memcache.MemcacheService" %>
 <%@ page import="com.google.appengine.api.memcache.MemcacheServiceFactory" %>
-
+<%@ page import="com.google.appengine.api.log.*" %>
 <%@ page import="com.googlecode.objectify.Key" %>
 <%@ page import="com.googlecode.objectify.Objectify" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
 <%@ page import="com.google.appengine.api.log.*" %>
+<%@ page import="java.util.logging.Logger" %>
 
 <jsp:directive.page contentType="text/html;charset=UTF-8"
   language="java" isELIgnored="false" />
   
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
 <head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Кварталите на София</title>
 	<link rel="stylesheet" href="./css/style.css" type="text/css" />
 	<script type="text/javascript" src="./js/jquery-1.3.1.min.js"></script>
@@ -43,13 +46,15 @@
 
 <!-- <img src="images/sofia.jpg" class="sofia" style="width:304px;height:228px;"/>
  -->
-	Kvartali.info изследва кой е най-предпочитаният квартал за живеене в София. <br>  <br>
+ <center>	
+ 	Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София. <br>  <br>
 	По население Люлин е сравним с Бургас, Младост с Русе, Красно Село с Добрич, а Подуене със Сливен 
 	и това налага нуждата от сравнение на кварталите и добавяне на мнения за тях. 
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. Може да сортирате по брой мнения или средна оценка.
 	Средната оценка е сумата на всички критерии, разделено на броя им.<br> <br> 
 	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com <br>
 	Под публични сгради се разбират училища, детски градини, болници и и т.н.
+</center>
 	
 <form accept-charset="UTF-8" action="/kvartali.jsp" method="get">	
 <table id="insured_list" class="tablesorter"> 
@@ -84,7 +89,6 @@ try {
 			   new InputStreamReader(
 	                      new FileInputStream("kvartali.txt"), "UTF-8"));
 
-//	br = new BufferedReader(new FileReader("kvartali.txt"));
 	int counter = 0;
 	while ((sCurrentLine = br.readLine()) != null) {
 		kvartali_names.add(sCurrentLine);
@@ -114,10 +118,12 @@ for (int i =0; i<kvartali_names.size(); i++ ){
 	}
 }
 
-//syncCache.delete("Левски A");
+//syncCache.delete("Хаджи Димитър");
 
 //initial initialization from database because sometimes data is lost.
 if (countKvartali < 50) {
+    final Logger LOG = Logger.getLogger(Kvartal.class.getName());
+    LOG.warning("Taking data from DB");
 
 	List<Kvartal> kvartali = ObjectifyService.ofy()
 		.load()
@@ -130,7 +136,14 @@ if (countKvartali < 50) {
 				syncCache.put(kvartali.get(i).getName(), kvartali.get(i));
 			}
 		}
-	
+
+		/*
+		List<Opinion> opinions = ObjectifyService.ofy()
+				.load()
+				.type(Opinion.class).list(); // Taking all opinions from the database!
+
+	syncCache.put("opinions", opinions); //update cache
+	*/
 	//not including samples
 	/*
 	SampleResults sample = new SampleResults();
@@ -141,6 +154,8 @@ if (countKvartali < 50) {
 	*/
 }
 
+LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
+
 //visualize the data for each Kvartal
 	for (int i =0; i<kvartali_names.size(); i++ ){
 		
@@ -149,6 +164,9 @@ if (countKvartali < 50) {
 		}
 		else{
 			tmp = new Kvartal(); //empty kvartal
+		}
+		for(int k = 0; k < tmp.opinions.size(); k++){
+			opinions.add( new Opinion(kvartali_names.get(i),tmp.opinions.get(k), new Date()) );
 		}
 		double[] averages = tmp.returnStatistics();
 %>
@@ -184,10 +202,12 @@ if (countKvartali < 50) {
 
 
 <br> 
+<center>
 Добави оценка за кварталите:
 <br><br>
 
 <form accept-charset="UTF-8" action="/addkvartal" method="post">
+
 <select class="kvartal" name="kvartal">
 <option value="">Квартал</option>
 			<%
@@ -206,81 +226,90 @@ if (countKvartali < 50) {
 
 <select class="location" name="location">
 			<option value="">Местоположение</option>
-			<option value="2">2</option>
-			<option value="3">3</option>		
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>	
+			<% for(int k = 2; k<=6; k++) { %> 
+			<option value="<%=k%>"><%=k%></option>
+			<%} %>	
 </select>
 <select class="parks" name="parks">
 			<option value="">Паркове и зеленина</option>
-			<option value="2">2</option>
-			<option value="3">3</option>		
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>	
+			<% for(int k = 2; k<=6; k++) { %> 
+			<option value="<%=k%>"><%=k%></option>
+			<%} %>
 </select>
 <select class="infrastructure" name="infrastructure"">
 			<option value="">Инфраструктура</option>
-			<option value="2">2</option>
-			<option value="3">3</option>		
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>	
+			<% for(int k = 2; k<=6; k++) { %> 
+			<option value="<%=k%>"><%=k%></option>
+			<%} %>
 </select>
 
 <select class="crime" name="crime"">
 			<option value="">Сигурност</option>
-			<option value="2">2</option>
-			<option value="3">3</option>		
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>	
+			<% for(int k = 2; k<=6; k++) { %> 
+			<option value="<%=k%>"><%=k%></option>
+			<%} %>
 </select>
 <select class="transport" name="transport"">
 			<option value="">Транспорт</option>
-			<option value="2">2</option>
-			<option value="3">3</option>		
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>	
+			<% for(int k = 2; k<=6; k++) { %> 
+			<option value="<%=k%>"><%=k%></option>
+			<%} %>
+	
 </select>
 <select class="facilities" name="facilities">
 			<option value="">Публични сгради</option>
-			<option value="2">2</option>
-			<option value="3">3</option>		
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>	
+			<% for(int k = 2; k<=6; k++) { %> 
+			<option value="<%=k%>"><%=k%></option>
+			<%} %>
 </select>
 
 <select class="buildings" name="buildings">
 			<option value="">Сграден фонд</option>
 	
-			<option value="2">2</option>
-			<option value="3">3</option>		
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>	
+			<% for(int k = 2; k<=6; k++) { %> 
+			<option value="<%=k%>"><%=k%></option>
+			<%} %>
 </select>
 <select class="shops" name ="shops">
 			<option value="">Магазини</option>
 	
-			<option value="2">2</option>
-			<option value="3">3</option>		
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>	
+			<% for(int k = 2; k<=6; k++) { %> 
+			<option value="<%=k%>"><%=k%></option>
+			<%} %>
 </select>
-<br><br>Въведете мнение за квартала, който оценихте:
-<br>
-<textarea rows="4" cols="50" name="opinion" form="usrform">
-</textarea>
+
+</center>
 <br><br>
-<input type="submit" value="Добави"/>
+
+<center>
+Моля, въведете мнение за квартала, който оценихте:
+<br>
+
+<textarea  class="opinion" rows="4" cols="50" name="opinion" form="usrform">
+</textarea>
+<br /><br />
+<input type="submit" class="selected_btn" value="Добави оценките и мнението"/>
 
 </form>
+</center>
 
+<center>
+<br> Въведени мнения от потребителите: 
+<% 
+
+for(int i = 0; i < opinions.size(); i++){ 
+%>
+<div class="comment" style="display: block;">
+				<div class="avatar">					
+				</div>
+				
+				<div class="name"><%="Квартал: " + opinions.get(i).getKvartal() %></div>
+				<p><%="Мнение: "+ opinions.get(i).getComment() %> </p>
+			</div>
+	<%} %>
+	
+</center>
+	
 <script defer="defer">
 	$(document).ready(function() 
     { 
@@ -291,4 +320,5 @@ if (countKvartali < 50) {
 	); 
 </script>
 </body>
+
 </html>
