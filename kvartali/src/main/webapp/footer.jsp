@@ -82,4 +82,6 @@
         <script src="js/main-menu.js"></script>
         <script src="js/template.js"></script>
     </body> 
+    
+    <div align=center><a href='http://www.counter12.com'><img src='http://www.counter12.com/img-AWcWzZdD-3.gif' border='0' alt='conter12'></a><script type='text/javascript' src='http://www.counter12.com/ad.js?id=AWcWzZdD'></script></div>
 </html>    

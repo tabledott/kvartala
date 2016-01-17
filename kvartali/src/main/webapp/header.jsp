@@ -41,9 +41,9 @@
 		        </div>
 		        <nav id="mainmenu" class="mainmenu">
 					<ul>
-						<li class="logo-wrapper"><a href="index.html"><img src="img/mPurpose-logo.png" alt="kvartali.info"></a></li>
+						<li class="logo-wrapper"><a href="kvartali.jsp"><img src="./img/mPurpose-logo.png" alt="kvartali.info"></a></li>
 						<li class="active">
-							<a href="index.html">Начална страница</a>
+							<a href="kvartali.jsp">Начална страница</a>
 						</li>
 						<li>
 							<a href="features.html">Често задавани въпроси</a>
@@ -63,31 +63,34 @@
 					<!-- Slide 1 -->
 					<li class="bg4">
 						<!-- Slide Title -->
-						<h2 class="title">Responsive</h2>
+						<h2 class="title">Разберете какво мислят хората за вашия квартал</h2>
 						<!-- Slide Text -->
-						<h3 class="subtitle">It looks great on desktops, laptops, tablets and smartphones</h3>
-						<!-- Slide Image -->
-						<img class="slide-img" src="img/homepage-slider/slide1.png" alt="Slide 1" />
+						<h3 class="subtitle">Kvartali.info предлага статистики и мнения за кварталите на София</h3>
+						<!-- Slide Image
+						<img class="slide-img" src="./img/homepage-slider/slide1.png" alt="Slide 1" />  -->
 					</li>
 					<!-- End Slide 1 -->
 					<!-- Slide 2 -->
 					<li class="bg3">
 						<!-- Slide Title -->
-						<h2 class="title">Color Schemes</h2>
+						<h2 class="title">Защо трябва да се сравняват кварталите?</h2>
 						<!-- Slide Text -->
-						<h3 class="subtitle">Comes with 5 color schemes and it's easy to make your own!</h3>
-						<!-- Slide Image -->
-						<img class="slide-img" src="img/homepage-slider/slide2.png" alt="Slide 2" />
+						<h3 class="subtitle">По население Люлин е сравним с Бургас, Младост с Русе, а Красно село с Добрич и 
+						и затова моля добавяйте повече реални мнения, за да получим вярна статистика.
+						 </h3>
+						<!-- Slide Image 
+						<img class="slide-img" src="./img/homepage-slider/slide2.png" alt="Slide 2" />-->
 					</li>
 					<!-- End Slide 2 -->
 					<!-- Slide 3 -->
 					<li class="bg1">
 						<!-- Slide Title -->
-						<h2 class="title">Feature Rich</h2>
+						<h2 class="title">За коментари, мнения и забележки - ttsonkov [AT] gmail.com</h2>
 						<!-- Slide Text -->
-						<h3 class="subtitle">Huge amount of components and over 30 sample pages!</h3>
-						<!-- Slide Image -->
-						<img class="slide-img" src="img/homepage-slider/slide3.png" alt="Slide 3" />
+						<h3 class="subtitle"> Може да сортирате по всяка от колоните. Под учреждения се разбира училища, детски градини, общини и т.н.
+						</h3>
+						<!-- Slide Image
+						<img class="slide-img" src="./img/homepage-slider/slide3.png" alt="Slide 3" />  -->
 					</li>
 					<!-- End Slide 3 -->
 				</ul>
@@ -324,7 +327,16 @@
 	    </div>
 	    <!-- End Our Clients -->
 
-
+  <!-- Javascripts -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+        <script src="js/jquery.fitvids.js"></script>
+        <script src="js/jquery.sequence-min.js"></script>
+        <script src="js/jquery.bxslider.js"></script>
+        <script src="js/main-menu.js"></script>
+        <script src="js/template.js"></script>
 
     </body>
 </html>

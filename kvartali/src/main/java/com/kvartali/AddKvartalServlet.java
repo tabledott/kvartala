@@ -82,6 +82,9 @@ public class AddKvartalServlet extends HttpServlet {
 	    if(name!=null && name.length() > 0) {
 
 	    	LOG.warning("Adding OP: " + name + " " + opinion );
+	    	if(opinion.length() < 13) {
+	    		opinion = "";
+	    	}
 	    	next.addKvartal(name, location, parks, crime, transport, infrastructure, facilities, buildings, shops, opinion);
 
 		    syncCache.put(name, next); // Update cache with evaluation.

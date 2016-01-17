@@ -61,7 +61,17 @@
 		
         <script src="./js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     </head>
-
+<body>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- kvartali.info -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9935344527344739"
+     data-ad-slot="9429895603"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
  <center>	
  	Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София. <br>  <br>
@@ -326,9 +336,15 @@ for(int i = 0; i < opinions.size(); i+=3){
 	if( i < opinions.size() - 1) {
 		secondOpinion = opinions.get(i+1);
 	}
+	else{
+		secondOpinion = new Opinion();
+	}
 	
 	if( i < opinions.size() - 2) {
 		thirdOpinion = opinions.get(i+2);
+	}
+	else{
+		thirdOpinion = new Opinion();
 	}
 %>
 
