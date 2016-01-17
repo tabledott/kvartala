@@ -33,19 +33,36 @@
 <jsp:directive.page contentType="text/html;charset=UTF-8"
   language="java" isELIgnored="false" />
   
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Кварталите на София</title>
-	<link rel="stylesheet" href="./css/style.css" type="text/css" />
-	<script type="text/javascript" src="./js/jquery-1.3.1.min.js"></script>
-	<script type="text/javascript" src="./js/jquery.tablesorter.js"></script>
-	<script type="text/javascript" src="./js/jquery.tablesorter.pager.js"></script>
-</head>
-<body>
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>kvartali.info - Всичко за Вашия квартал!</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
 
-<!-- <img src="images/sofia.jpg" class="sofia" style="width:304px;height:228px;"/>
- -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/icomoon-social.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="css/leaflet.css" />
+		<!--[if lte IE 8]>
+		    <link rel="stylesheet" href="css/leaflet.ie.css" />
+		<![endif]-->
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="./css/style.css" type="text/css" />
+		<script type="text/javascript" src="./js/jquery-1.3.1.min.js"></script>
+		<script type="text/javascript" src="./js/jquery.tablesorter.js"></script>
+		<script type="text/javascript" src="./js/jquery.tablesorter.pager.js"></script>
+		
+        <script src="./js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+
+
  <center>	
  	Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София. <br>  <br>
 	По население Люлин е сравним с Бургас, Младост с Русе, Красно Село с Добрич, а Подуене със Сливен 
@@ -53,7 +70,6 @@
 	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. Може да сортирате по брой мнения или средна оценка.
 	Средната оценка е сумата на всички критерии, разделено на броя им.<br> <br> 
 	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com <br>
-	Под публични сгради се разбират училища, детски градини, болници и и т.н.
 </center>
 	
 <form accept-charset="UTF-8" action="/kvartali.jsp" method="get">	
@@ -66,7 +82,7 @@
 	  <th>Сигурност</th>
 	  <th>Инфраструктура</th>
 	  <th>Транспорт</th>
-	  <th>Публични сгради</th>
+	  <th>Учреждения</th>
 	  <th>Сграден фонд</th>
 	  <th>Магазини</th>
 	  <th>Средна оценка</th>
@@ -123,8 +139,7 @@ for (int i =0; i<kvartali_names.size(); i++ ){
 //initial initialization from database because sometimes data is lost.
 if (countKvartali < 50) {
     final Logger LOG = Logger.getLogger(Kvartal.class.getName());
-    LOG.warning("Taking data from DB");
-
+    
 	List<Kvartal> kvartali = ObjectifyService.ofy()
 		.load()
 		.type(Kvartal.class).list(); // Taking all kvartali from the database!
@@ -257,7 +272,7 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 	
 </select>
 <select class="facilities" name="facilities">
-			<option value="">Публични сгради</option>
+			<option value="">Учреждения</option>
 			<% for(int k = 2; k<=6; k++) { %> 
 			<option value="<%=k%>"><%=k%></option>
 			<%} %>
@@ -293,22 +308,56 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 </form>
 </center>
 
-<center>
-<br> Въведени мнения от потребителите: 
-<% 
 
-for(int i = 0; i < opinions.size(); i++){ 
-%>
-<div class="comment" style="display: block;">
-				<div class="avatar">					
-				</div>
-				
-				<div class="name"><%="Квартал: " + opinions.get(i).getKvartal() %></div>
-				<p><%="Мнение: "+ opinions.get(i).getComment() %> </p>
-			</div>
-	<%} %>
-	
+<br> 
+<center>
+Въведени мнения от потребителите: 
 </center>
+<br> 
+
+<% 
+Opinion firstOpinion = new Opinion();
+Opinion secondOpinion = new Opinion();
+Opinion thirdOpinion = new Opinion();
+
+for(int i = 0; i < opinions.size(); i+=3){ 
+	firstOpinion = opinions.get(i);
+	
+	if( i < opinions.size() - 1) {
+		secondOpinion = opinions.get(i+1);
+	}
+	
+	if( i < opinions.size() - 2) {
+		thirdOpinion = opinions.get(i+2);
+	}
+%>
+
+<div class="section">
+	        <div class="container">
+	        	<div class="row">
+	        		<div class="col-md-4 col-sm-6">
+	        			<div class="service-wrapper">
+		        			<h3><%=firstOpinion.getKvartal()%></h3>
+		        			<p><%=firstOpinion.getComment()%></p>
+		        		</div>
+	        		</div>
+	        		<div class="col-md-4 col-sm-6">
+	        			<div class="service-wrapper">
+		        			<h3><%=secondOpinion.getKvartal()%></h3>
+		        			<p><%=secondOpinion.getComment()%></p>
+		        		</div>
+	        		</div>
+	        		<div class="col-md-4 col-sm-6">
+	        			<div class="service-wrapper">
+		        			<h3><%=thirdOpinion.getKvartal()%></h3>
+		        			<p><%=thirdOpinion.getComment()%></p>
+		        		</div>
+	        		</div>
+	        	</div>
+	        </div>
+	    </div>
+
+<% } %>
 	
 <script defer="defer">
 	$(document).ready(function() 
