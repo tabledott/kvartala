@@ -18,6 +18,18 @@
   <url-pattern>/addkvartal</url-pattern>
 </servlet-mapping>
 
+<servlet>
+  <servlet-name>addInfoKvartal</servlet-name>
+  <servlet-class>com.kvartali.AddInfoKvartalServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>addInfoKvartal</servlet-name>
+  <url-pattern>/kvartal</url-pattern>
+</servlet-mapping>
+
+
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

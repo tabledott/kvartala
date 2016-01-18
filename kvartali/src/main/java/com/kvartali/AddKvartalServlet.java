@@ -1,7 +1,6 @@
 package com.kvartali;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -114,7 +113,7 @@ public class AddKvartalServlet extends HttpServlet {
 		    	//System.out.println("Writing in the database: " + next.getName());
 		    	ObjectifyService.ofy().save().entity(next).now();
 		    } */
-		    resp.sendRedirect("/kvartali.jsp");
+		    resp.sendRedirect("/index.jsp");
 
 	  }
 

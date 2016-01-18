@@ -212,7 +212,6 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 <option value="">Квартал</option>
 			<%
 			request.setCharacterEncoding( "UTF-8" );			
-			response.setCharacterEncoding( "UTF-8" );
 			response.setHeader("Content-Encoding", "utf-8");
 			
 			for(int i = 0; i < kvartali_names.size(); i++) {
