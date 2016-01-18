@@ -38,7 +38,7 @@
 		    			</div>
 		    		</div>
 		    		<div class="col-footer col-md-3 col-xs-6">
-		    			<h3>Navigate</h3>
+		    			<h3>Навигация</h3>
 		    			<ul class="no-list-style footer-navigate-section">
 		    				<li><a href="kvartal.jsp">Информация за вашия квартал</a></li>
 		    				<li><a href="faq.jsp">Как работи сайта?</a></li>

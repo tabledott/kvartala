@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 
-public class FileReader {
+public class FileReaderSite {
 
-	public FileReader(){
+	public FileReaderSite(){
 	}
 	
 	public LinkedList<String> readListFromFile(String fileName){
@@ -37,3 +37,4 @@ public class FileReader {
 		return result;
 	}
 }
+

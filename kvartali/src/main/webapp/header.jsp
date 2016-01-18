@@ -34,15 +34,11 @@
         <!-- Navigation & Logo-->
         <div class="mainmenu-wrapper">
 	        <div class="container">
-	        	<div class="menuextras">
-					<div class="extras">
-					</div>
-		        </div>
 		        <nav id="mainmenu" class="mainmenu">
 					<ul>
 						<li class="logo-wrapper"><a href="kvartali.jsp"></a></li>
 						<li class="active">
-							<a href="kvartali.jsp">Начална страница</a>
+							<a href="index.jsp">Начална страница</a>
 						</li>
 						<li>
 							<a href="kvartal.jsp">Всичко за Вашия квартал</a>
@@ -50,10 +46,24 @@
 						<li>
 							<a href="faq.jsp">Често задавани въпроси</a>
 						</li>
-
 					</ul>
 				</nav>
 			</div>
 		</div>    
+		
+	
+		<!-- Javascripts 
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script> $191 = jQuery.noConflict();</script>
+        
+        <script>window.$191.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+        <script src="js/jquery.fitvids.js"></script>
+        <script src="js/jquery.sequence-min.js"></script>
+        <script src="js/jquery.bxslider.js"></script>
+        <script src="js/main-menu.js"></script>
+        <script src="js/template.js"></script>  -->
+		
     </body>
 </html>

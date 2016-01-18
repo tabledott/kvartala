@@ -3,11 +3,6 @@
 <%@page pageEncoding="UTF-8" %>
 
 <%@page import="java.util.HashMap"%>
-<%@ page import="java.io.FileReader" %>
-<%@ page import="java.io.IOException" %>
-<%@ page import="java.io.BufferedReader" %>
-<%@ page import="java.io.InputStreamReader" %>
-<%@ page import="java.io.FileInputStream" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Date" %>
@@ -16,6 +11,8 @@
 <%@ page import="com.kvartali.Opinion" %>
 <%@ page import="com.kvartali.SampleResults" %>
 <%@ page import="com.kvartali.OfyHelper" %>
+<%@ page import="com.kvartali.FileReaderSite" %>
+
 
 <%@ page import="java.util.logging.Level" %>
 
@@ -75,16 +72,10 @@
 
 <jsp:include page="header.jsp" />
 
-<!--  
  <center>	
  	Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София. <br>  <br>
-	По население Люлин е сравним с Бургас, Младост с Русе, Красно Село с Добрич, а Подуене със Сливен 
-	и това налага нуждата от сравнение на кварталите и добавяне на мнения за тях. 
-	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. Може да сортирате по брой мнения или средна оценка.
-	Средната оценка е сумата на всички критерии, разделено на броя им.<br> <br> 
-	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com <br>
 </center>
--->
+
 	
 <form accept-charset="UTF-8" action="/kvartali.jsp" method="get">	
 <table id="insured_list" class="tablesorter"> 
@@ -108,32 +99,8 @@
 request.setCharacterEncoding( "UTF-8" );
 response.setCharacterEncoding( "UTF-8" );
 //get the names from the text file.
-
-LinkedList<String> kvartali_names = new LinkedList<String>();
-BufferedReader br = null;
-try {
-
-	String sCurrentLine;
-	
-	br = new BufferedReader(
-			   new InputStreamReader(
-	                      new FileInputStream("kvartali.txt"), "UTF-8"));
-
-	int counter = 0;
-	while ((sCurrentLine = br.readLine()) != null) {
-		kvartali_names.add(sCurrentLine);
-	}
-
-}
-catch (IOException e) {
-	e.printStackTrace();
-} finally {
-	try {
-		if (br != null)br.close();
-	} catch (IOException ex) {
-		ex.printStackTrace();
-	}
-}
+FileReaderSite tmpReader = new FileReaderSite();
+LinkedList<String> kvartali_names = tmpReader.readListFromFile("kvartali.txt");
 
 MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
@@ -215,7 +182,8 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 </tbody> 
 </table> 
 </form>
-<div id="pager" class="pager">
+<center>
+	<div id="pager" class="pager">
 	<form accept-charset="UTF-8">
 		<img src="images/first.png" class="first"/>
 		<img src="images/prev.png" class="prev"/>
@@ -231,6 +199,7 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 	</form>
 </div>
 
+</center>
 
 <br> 
 <center>
