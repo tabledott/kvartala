@@ -73,14 +73,13 @@
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
+<jsp:include page="header.jsp" />
+
+
  <center>	
  	Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София. <br>  <br>
-	По население Люлин е сравним с Бургас, Младост с Русе, Красно Село с Добрич, а Подуене със Сливен 
-	и това налага нуждата от сравнение на кварталите и добавяне на мнения за тях. 
-	Моля добавяйте повече РЕАЛНИ данни, за да получим реална статистика. Може да сортирате по брой мнения или средна оценка.
-	Средната оценка е сумата на всички критерии, разделено на броя им.<br> <br> 
-	Ще се радвам на коментари какви критерии да се слагат, на предложения и забележки на ttsonkov [AT] gmail.com <br>
 </center>
+
 	
 <form accept-charset="UTF-8" action="/kvartali.jsp" method="get">	
 <table id="insured_list" class="tablesorter"> 
@@ -104,9 +103,9 @@
 request.setCharacterEncoding( "UTF-8" );
 response.setCharacterEncoding( "UTF-8" );
 //get the names from the text file.
-BufferedReader br = null;
-LinkedList<String> kvartali_names = new LinkedList<String>();
 
+LinkedList<String> kvartali_names = new LinkedList<String>();
+BufferedReader br = null;
 try {
 
 	String sCurrentLine;
@@ -144,7 +143,7 @@ for (int i =0; i<kvartali_names.size(); i++ ){
 	}
 }
 
-//syncCache.delete("Хаджи Димитър");
+//syncCache.delete("Полигона");
 
 //initial initialization from database because sometimes data is lost.
 if (countKvartali < 50) {
@@ -191,7 +190,9 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 			tmp = new Kvartal(); //empty kvartal
 		}
 		for(int k = 0; k < tmp.opinions.size(); k++){
-			opinions.add( new Opinion(kvartali_names.get(i),tmp.opinions.get(k), new Date()) );
+			if( tmp.opinions.get(k).length() > 12){
+				opinions.add( new Opinion(kvartali_names.get(i),tmp.opinions.get(k), new Date()) );
+			}
 		}
 		double[] averages = tmp.returnStatistics();
 %>
@@ -385,5 +386,8 @@ for(int i = 0; i < opinions.size(); i+=3){
 	); 
 </script>
 </body>
+
+<jsp:include page="footer.jsp" />
+
 
 </html>

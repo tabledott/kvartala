@@ -1,4 +1,4 @@
-  	    <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -24,7 +24,6 @@
 		<![endif]-->
 		<link rel="stylesheet" href="./css/main.css">
 
-        <script src="./js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     </head>
    
    <body>
@@ -36,28 +35,25 @@
 		    		<div class="col-footer col-md-3 col-xs-6">
 		    			<h3>kvartali.info</h3>
 		    			<div class="portfolio-item">
-							<div class="portfolio-image">
-								<a href="page-portfolio-item.html"><img src="img/portfolio6.jpg" alt="Project Name"></a>
-							</div>
-						</div>
+		    			</div>
 		    		</div>
 		    		<div class="col-footer col-md-3 col-xs-6">
 		    			<h3>Navigate</h3>
 		    			<ul class="no-list-style footer-navigate-section">
-		    				<li><a href="page-blog-posts.html">Blog</a></li>
-		    				<li><a href="page-faq.html">FAQ</a></li>
+		    				<li><a href="kvartal.jsp">Информация за вашия квартал</a></li>
+		    				<li><a href="faq.jsp">Как работи сайта?</a></li>
 		    			</ul>
 		    		</div>
 		    		
 		    		<div class="col-footer col-md-4 col-xs-6">
-		    			<h3>Contacts</h3>
+		    			<h3>Контакти</h3>
 		    			<p class="contact-us-details">
 	        				<b>Address:</b> София, Квартала<br/>
 	        				<b>Email:</b> <a href="mailto:ttsonkov@gmail.com">ttsonkov AT gmail.com	  	
 	        			</p>
 		    		</div>
 		    		<div class="col-footer col-md-2 col-xs-6">
-		    			<h3>Stay Connected</h3>
+		    			<h3>Mоля, посетете нашата страница!</h3>
 		    			<ul class="footer-stay-connected no-list-style">
 		    				<li><a href="https://www.facebook.com/kvartaliinfo-839085642879929/?fref=ts" class="facebook"></a></li>
 		    			</ul>
@@ -70,18 +66,6 @@
 		    	</div>
 		    </div>
 	    </div>
-
-        <!-- Javascripts -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
-        <script src="js/jquery.fitvids.js"></script>
-        <script src="js/jquery.sequence-min.js"></script>
-        <script src="js/jquery.bxslider.js"></script>
-        <script src="js/main-menu.js"></script>
-        <script src="js/template.js"></script>
     </body> 
     
-    <div align=center><a href='http://www.counter12.com'><img src='http://www.counter12.com/img-AWcWzZdD-3.gif' border='0' alt='conter12'></a><script type='text/javascript' src='http://www.counter12.com/ad.js?id=AWcWzZdD'></script></div>
 </html>    

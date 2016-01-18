@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.memcache.ErrorHandlers;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.memcache.MemcacheService;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
 public class AddKvartalServlet extends HttpServlet {
@@ -73,8 +74,17 @@ public class AddKvartalServlet extends HttpServlet {
 	    syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
 	    
 	    Kvartal next = (Kvartal) syncCache.get(name); // Read from cache.
-	    if(next == null){
-	    	next = new Kvartal();
+	    if(next == null){  //no info in cache so try to load from database
+	    	Key<Kvartal> getKvartalKey = Key.create(Kvartal.class, name);
+	    	next = 	ObjectifyService.ofy()
+					.load().type(Kvartal.class).filterKey(getKvartalKey).first().now();
+	    	
+	    	if(next == null){
+	    		next = new Kvartal();
+	    	}
+	    	else{
+	    		LOG.warning("Updating from database kvartal: " + next.toString());
+	    	}
 	    }
 	    
 	    
@@ -85,6 +95,7 @@ public class AddKvartalServlet extends HttpServlet {
 	    	if(opinion.length() < 13) {
 	    		opinion = "";
 	    	}
+	    		    	
 	    	next.addKvartal(name, location, parks, crime, transport, infrastructure, facilities, buildings, shops, opinion);
 
 		    syncCache.put(name, next); // Update cache with evaluation.
