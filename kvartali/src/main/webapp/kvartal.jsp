@@ -59,16 +59,28 @@
 				response.setHeader("Content-Encoding", "utf-8");
 				
 				FileReaderSite tmpReader = new FileReaderSite();
-				LinkedList<String> kvartali_names = tmpReader.readListFromFile("kvartali.txt");
+				LinkedList<String> kvartali_names = new LinkedList<String>();
 				
-				for(int i = 0; i < kvartali_names.size(); i++) {
-						%> 
-						<option value="<%=kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
-						<%
+				if(session.getAttribute("kvartali_names") == null){
+					kvartali_names = tmpReader.readListFromFile("kvartali.txt");
+					session.setAttribute("kvartali_names", kvartali_names);
+				}
+				else 
+				{
+					try{
+						kvartali_names = (LinkedList<String>) session.getAttribute("kvartali_names");
 					}
-		%>			
+					catch (Exception ex){
+						kvartali_names = tmpReader.readListFromFile("kvartali.txt");
+					}
+				}
+				for(int i = 0; i < kvartali_names.size(); i++) {
+				%> 
+					<option value="<%=kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
+				<% }%>			
+		
 		</select>
-	<input type="submit" class="selected_btn" value="Избери квартала"/>
+	<input type="submit" class="selected_btn" value="Избери"/>
 </form>
 </center>
 		
@@ -86,7 +98,7 @@
 	    
 		if(session.getAttribute("kvartal") == null) {	
 			 while 	(!syncCache.contains(kvartali_names.get(randKvartal))){
-				 randKvartal = rand.nextInt((kvartali_names.size()+1));
+				 randKvartal = rand.nextInt(kvartali_names.size());
 			 }
 			 kvartalName = kvartali_names.get(randKvartal);
 		}
@@ -98,15 +110,21 @@
 	    Kvartal next = (Kvartal) syncCache.get(kvartalName); // Read from cache.
 	    if(next == null){  //no info in cache so try to load from database
 	    	
-	    	Key<Kvartal> getKvartalKey = Key.create(Kvartal.class, kvartalName);
-	    	next = 	ObjectifyService.ofy()
-					.load().type(Kvartal.class).filterKey(getKvartalKey).first().now();
-	    	
-	    	if(next == null){
-	    		next = new Kvartal();
+	    	if(session.getAttribute(kvartalName)!= null) {
+	    		next = (Kvartal)session.getAttribute(kvartalName);
 	    	}
-    	}
-		System.out.println("Updating from database kvartal: " + next.toString());
+	    	else{
+		    	Key<Kvartal> getKvartalKey = Key.create(Kvartal.class, kvartalName);
+		    	next = 	ObjectifyService.ofy()
+						.load().type(Kvartal.class).filterKey(getKvartalKey).first().now();
+		    	
+		    	if(next == null){
+		    		next = new Kvartal();
+		    		next.setName(kvartalName);
+		    	}
+
+	    	}
+    	} 
 		
 		double[] stats = next.returnStatistics();
  	 %>   		    		
@@ -174,23 +192,27 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 		        			<p><%=firstOpinion%></p>
 		        		</div>
 	        		</div>
+	        		<%if(secondOpinion.length()>0) {%>
 	        		<div class="col-md-4 col-sm-6">
 	        			<div class="service-wrapper">
 		        			<h3><%=next.getName()%></h3>
 		        			<p><%=secondOpinion%></p>
 		        		</div>
 	        		</div>
+	        		<%} %>
+	        		<%if(thirdOpinion.length()>0){%>
 	        		<div class="col-md-4 col-sm-6">
 	        			<div class="service-wrapper">
 		        			<h3><%=next.getName()%></h3>
 		        			<p><%=thirdOpinion%></p>
 		        		</div>
 	        		</div>
+	        		<%} %>
 	        	</div>
 	        </div>
 	    </div>
 
-<% } %>
+<% }%>
 	
 	<script defer="defer">
 	$(document).ready(function() 

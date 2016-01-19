@@ -98,10 +98,23 @@
 <%
 request.setCharacterEncoding( "UTF-8" );
 response.setCharacterEncoding( "UTF-8" );
-//get the names from the text file.
-FileReaderSite tmpReader = new FileReaderSite();
-LinkedList<String> kvartali_names = tmpReader.readListFromFile("kvartali.txt");
 
+FileReaderSite tmpReader = new FileReaderSite();
+LinkedList<String> kvartali_names = new LinkedList<String>();
+//get the names from the text file.
+if(session.getAttribute("kvartali_names") == null){
+	kvartali_names = tmpReader.readListFromFile("kvartali.txt");
+	session.setAttribute("kvartali_names", kvartali_names);
+}
+else 
+{
+	try{
+		kvartali_names = (LinkedList<String>) session.getAttribute("kvartali_names");
+	}
+	catch (Exception ex){
+		kvartali_names = tmpReader.readListFromFile("kvartali.txt");
+	}
+}
 MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
 
@@ -112,6 +125,7 @@ int countKvartali = 0;
 for (int i =0; i<kvartali_names.size(); i++ ){
 	if (syncCache.contains(kvartali_names.get(i))){
 		countKvartali++;// Read from cache.
+		session.setAttribute(kvartali_names.get(i), syncCache.get(kvartali_names.get(i)));
 	}
 }
 
@@ -331,18 +345,25 @@ for(int i = 0; i < opinions.size(); i+=3){
 		        			<p><%=firstOpinion.getComment()%></p>
 		        		</div>
 	        		</div>
+	        		<%if(secondOpinion.getComment().length()>0) {%>
+	        		
 	        		<div class="col-md-4 col-sm-6">
 	        			<div class="service-wrapper">
 		        			<h3><%=secondOpinion.getKvartal()%></h3>
 		        			<p><%=secondOpinion.getComment()%></p>
 		        		</div>
 	        		</div>
+	        		<%} %>
+	        		
+	        		<%if(thirdOpinion.getComment().length()>0) {%>
 	        		<div class="col-md-4 col-sm-6">
 	        			<div class="service-wrapper">
 		        			<h3><%=thirdOpinion.getKvartal()%></h3>
 		        			<p><%=thirdOpinion.getComment()%></p>
 		        		</div>
 	        		</div>
+	        		<%} %>
+	        		
 	        	</div>
 	        </div>
 	    </div>
