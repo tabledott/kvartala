@@ -2,14 +2,19 @@ package com.kvartali;
 
 import java.util.HashSet;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Parent;
 
 @Entity 
 public class OpinionObject implements java.io.Serializable {
 	
 	private static final long serialVersionUID = -5858905410084127835L;
 
+	@Parent
+	Key<Kvartal> parentKey;
+	
 	@Id
 	public String name;
 	
@@ -20,9 +25,14 @@ public class OpinionObject implements java.io.Serializable {
 	private short counterEvaluation;
 	private short sumEvaluation;
 	
-	public OpinionObject() {
+	private OpinionObject(){
+		
+	}
+	public OpinionObject(Key<Kvartal> parentKey, String name) {
 		super();
-		name = "";
+		this.name = name;
+		this.parentKey = parentKey;
+		
 		businessCategory = "";
 		businessAddress = "";
 		sumEvaluation = 0;
@@ -51,5 +61,12 @@ public class OpinionObject implements java.io.Serializable {
 		this.sumEvaluation+=mark;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "OpinionObject [name=" + name + ", businessCategory="
+				+ businessCategory + ", businessAddress=" + businessAddress
+				+ ", opinions=" + opinions + ", counterEvaluation="
+				+ counterEvaluation + ", sumEvaluation=" + sumEvaluation + "]";
+	}
+
 }

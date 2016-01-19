@@ -1,6 +1,7 @@
 package com.kvartali;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,20 +42,27 @@ public class AddInfoKvartalServlet extends HttpServlet{
 	    	Key<Kvartal> getKvartalKey = Key.create(Kvartal.class, kvartalName);
 	    	Key<OpinionObject> getOpinionObjectKey = Key.create(OpinionObject.class, objectName);
 	    	
-	    	OpinionObject nextObject;
+	    	OpinionObject nextObject = null;
 
 	    	nextObject = ObjectifyService.ofy()
 					.load().type(OpinionObject.class).ancestor(getKvartalKey).filterKey(getOpinionObjectKey).first().now();
 	    	
 	    	if(nextObject == null){
-	    		nextObject = new OpinionObject();
+	    		nextObject = new OpinionObject(getKvartalKey, objectName);
 	    	}
 		    
 	    	nextObject.AddOpinionObject(objectName, category, address, opinion, evaluation);
 	    	
 		    ObjectifyService.ofy().save().entity(nextObject).now(); //Update DB
-		  	
-		    resp.sendRedirect("/kvartal.jsp?kvartal="+kvartalName);
+		    
+			List<OpinionObject> opinionObjects = ObjectifyService.ofy()
+					.load().type(OpinionObject.class).ancestor(getKvartalKey).list();
+
+			for(int i = 0; i < opinionObjects.size(); i++){
+				System.out.println("OOO: "+ opinionObjects.get(i).toString());
+			}
+
+		    resp.sendRedirect("/kvartal.jsp");
 	  }
 
 }

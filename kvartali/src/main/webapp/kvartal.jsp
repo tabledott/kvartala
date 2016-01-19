@@ -1,10 +1,11 @@
 <%@ page import="com.kvartali.Kvartal" %>
 <%@ page import="com.kvartali.Opinion" %>
-<%@ page import="com.kvartali.SampleResults" %>
+<%@ page import="com.kvartali.OpinionObject" %>
 <%@ page import="com.kvartali.OfyHelper" %>
 <%@ page import="com.kvartali.FileReaderSite" %>
 
 <%@ page import="java.util.LinkedList" %>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.Random" %>
 
@@ -258,6 +259,17 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 
 <% }%>
 	
+	<%
+	Key<Kvartal> getKvartalKey = Key.create(Kvartal.class, kvartalName);
+	System.out.println("Kvartal: "+ kvartalName);
+	
+	List<OpinionObject> opinionObjects = ObjectifyService.ofy()
+			.load().type(OpinionObject.class).ancestor(getKvartalKey).list();
+
+	for(int i = 0; i < opinionObjects.size(); i++){
+		System.out.println("OOO: "+ opinionObjects.get(i).toString());
+	}
+	%>
 	<script defer="defer">
 	$(document).ready(function() 
     { 
