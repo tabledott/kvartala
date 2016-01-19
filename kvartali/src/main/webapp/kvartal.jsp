@@ -58,9 +58,17 @@
 		<% 		request.setCharacterEncoding( "UTF-8" );			
 				response.setHeader("Content-Encoding", "utf-8");
 				
+			    String kvartalName = "";
 				FileReaderSite tmpReader = new FileReaderSite();
 				LinkedList<String> kvartali_names = new LinkedList<String>();
-				
+			    MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+			    syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
+				final Logger LOG = Logger.getLogger(Kvartal.class.getName());
+
+			    if(request.getParameter("kvartal") != null){
+			    	session.setAttribute("kvartal", (String)request.getParameter("kvartal"));
+			    }
+			    
 				if(session.getAttribute("kvartali_names") == null){
 					kvartali_names = tmpReader.readListFromFile("kvartali.txt");
 					session.setAttribute("kvartali_names", kvartali_names);
@@ -74,6 +82,22 @@
 						kvartali_names = tmpReader.readListFromFile("kvartali.txt");
 					}
 				}
+			    
+			    Random rand = new Random();			  
+				int randKvartal = rand.nextInt((kvartali_names.size()));
+
+				if(session.getAttribute("kvartal") == null) {	
+					 while 	(!syncCache.contains(kvartali_names.get(randKvartal))){
+						 randKvartal = rand.nextInt(kvartali_names.size());
+					 }
+					 kvartalName = kvartali_names.get(randKvartal);
+				}
+				else{
+					kvartalName = (String)session.getAttribute("kvartal");
+				}
+				%>
+			<!--  	<option value="<%=kvartalName%>" selected></option>-->
+				<% 
 				for(int i = 0; i < kvartali_names.size(); i++) {
 				%> 
 					<option value="<%=kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
@@ -83,30 +107,52 @@
 	<input type="submit" class="selected_btn" value="Избери"/>
 </form>
 </center>
-		
-    <%
-	    Random rand = new Random();
-    	int randKvartal = rand.nextInt((kvartali_names.size()));
-	    String kvartalName = "";
-	    
-	    MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
-	    syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.SEVERE));
 
-	    if(request.getParameter("kvartal") != null){
-	    	session.setAttribute("kvartal", (String)request.getParameter("kvartal"));
-	    }
-	    
-		if(session.getAttribute("kvartal") == null) {	
-			 while 	(!syncCache.contains(kvartali_names.get(randKvartal))){
-				 randKvartal = rand.nextInt(kvartali_names.size());
-			 }
-			 kvartalName = kvartali_names.get(randKvartal);
-		}
-		else{
-			kvartalName = (String)session.getAttribute("kvartal");
-		}
-		final Logger LOG = Logger.getLogger(Kvartal.class.getName());
+<!-- Аdding specific information about kvartal -->
+<center>
+<b> Въведете информация за обектите или специалистите в квартала Ви</b>
+
+<form accept-charset="UTF-8" action="/addinfokvartal" method="post">		
+<select class="category" name="category">
+<option value="">Категория</option>
+		<%
+		tmpReader = new FileReaderSite();
+		LinkedList<String> category_names = tmpReader.readListFromFile("categories.txt");
+		for(int i = 0; i < category_names.size(); i++){
+		%>	
+			<option value="<%=category_names.get(i)%>"><%=category_names.get(i)%></option>
+		<%} %>
 		
+</select>
+<input type="hidden" name="kvartal" value="<%=session.getAttribute("kvartal")%>">
+
+<br />
+  Име на обекта/човека<br>
+  <input type="text" size="35" name="objectName"><br />
+ 
+ 	Адрес на обекта/човека:<br>
+  <input type="text" size="35" name="objectAddress"><br />
+
+<select class="evaluation" name="evaluation">
+			<option value="">Оценка</option>
+			<% for(int k = 2; k<=6; k++) { %> 
+			<option value="<%=k%>"><%=k%></option>
+			<%} %>	
+</select>
+
+<br />
+Моля, въведете мнение за обекта/човека, който оценихте:
+<br>
+
+<textarea  class="opinion" rows="4" cols="50" name="opinion">
+</textarea>
+<br /><br />
+<input type="submit" class="selected_btn" value="Добави оценките и мнението"/>
+</center>
+<br />
+</form>
+
+    <%
 	    Kvartal next = (Kvartal) syncCache.get(kvartalName); // Read from cache.
 	    if(next == null){  //no info in cache so try to load from database
 	    	
@@ -122,10 +168,8 @@
 		    		next = new Kvartal();
 		    		next.setName(kvartalName);
 		    	}
-
 	    	}
     	} 
-		
 		double[] stats = next.returnStatistics();
  	 %>   		    		
 

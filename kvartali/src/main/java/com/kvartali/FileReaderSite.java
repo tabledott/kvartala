@@ -18,7 +18,7 @@ public class FileReaderSite {
 			String sCurrentLine;
 			br = new BufferedReader(
 					   new InputStreamReader(
-			                      new FileInputStream("kvartali.txt"), "UTF-8"));
+			                      new FileInputStream(fileName), "UTF-8"));
 			while ((sCurrentLine = br.readLine()) != null) {
 				result.add(sCurrentLine);
 			}

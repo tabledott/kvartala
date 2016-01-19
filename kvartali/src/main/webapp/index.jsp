@@ -59,16 +59,6 @@
         <script src="./js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     </head>
 <body>
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- kvartali.info -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-9935344527344739"
-     data-ad-slot="9429895603"
-     data-ad-format="auto"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
 
 <jsp:include page="header.jsp" />
 
