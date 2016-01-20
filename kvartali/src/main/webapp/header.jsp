@@ -29,7 +29,7 @@
 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<!-- kvartali.info -->
 	<ins class="adsbygoogle"
-	     style="display:block"
+	     style="display:block;text-align:center;"
 	     data-ad-client="ca-pub-9935344527344739"
 	     data-ad-slot="9429895603"
 	     data-ad-format="auto"></ins>
@@ -43,7 +43,8 @@
         
 
         <!-- Navigation & Logo-->
-        <div class="mainmenu-wrapper">
+        <div class="mainmenu-wrapper" style="display:block;text-align:center;"
+        >
 	        <div class="container">
 		        <nav id="mainmenu" class="mainmenu">
 					<ul>

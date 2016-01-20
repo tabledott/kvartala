@@ -248,7 +248,8 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 					<option value="<%=k%>"><%=k%></option>
 					<%} %>
 		</select>
-
+		<br>
+		
 		<select class="crime" name="crime"">
 					<option value="">Сигурност</option>
 					<% for(int k = 2; k<=6; k++) { %> 
