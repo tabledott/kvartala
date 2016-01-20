@@ -50,25 +50,26 @@
 		<!--[if lte IE 8]>
 		    <link rel="stylesheet" href="css/leaflet.ie.css" />
 		<![endif]-->
-		<link rel="stylesheet" href="css/main.css">
-		<link rel="stylesheet" href="./css/style.css" type="text/css" />
+		<link rel="stylesheet" href="css/main.css"  type="text/css" />
+		<link rel="stylesheet" href="css/style.css" type="text/css" />
+		
 		<script type="text/javascript" src="./js/jquery-1.3.1.min.js"></script>
 		<script type="text/javascript" src="./js/jquery.tablesorter.js"></script>
 		<script type="text/javascript" src="./js/jquery.tablesorter.pager.js"></script>
 		
         <script src="./js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     </head>
+    
 <body>
 
 <jsp:include page="header.jsp" />
 
-<div id="headerInfo">
- <center>	
- 	<b>Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София.</b> <br>  <br>
-</center>
+<div id="start">
+ 	<b>Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София.</b> 
+ 	<br>  <br>
 </div>
 	
-<div id = "maintable">
+<div id="sortedtable">
 <form accept-charset="UTF-8" action="/kvartali.jsp" method="get">	
 <table id="insured_list" class="tablesorter"> 
 <thead> 
@@ -188,10 +189,7 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 </tbody> 
 </table> 
 </form>
-</div>
-<center>
-
-<div id="pager" class="pager">
+	<div id="pager" class="pager">
 	<form accept-charset="UTF-8">
 		<img src="images/first.png" class="first"/>
 		<img src="images/prev.png" class="prev"/>
@@ -202,96 +200,94 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 			<option value="5">5 на страница</option>
 			<option value="10" selected="selected">10 на страница</option>
 			<option value="20">20 на страница</option>
-			
 		</select>
 	</form>
+	</div>
 </div>
 
-</center>
-
-<div id="evaluation" class="evaluation" style="display:none">
-
-<br> 
+<br> <br> 
+<div id="evaluator">
 <center>
 <b>Добави оценка за кварталите:</b>
 <br><br>
 
 <form accept-charset="UTF-8" action="/addkvartal" method="post">
 
-<select class="kvartal" name="kvartal">
-<option value="">Квартал</option>
-			<%
-			request.setCharacterEncoding( "UTF-8" );			
-			response.setHeader("Content-Encoding", "utf-8");
-			
-			for(int i = 0; i < kvartali_names.size(); i++) {
-					%> 
-					<option value="<%=kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
+		<select class="kvartal" name="kvartal">
+		<option value="">Квартал</option>
 					<%
-				}
-				
-		%>		
-</select>
+					request.setCharacterEncoding( "UTF-8" );			
+					response.setHeader("Content-Encoding", "utf-8");
+					
+					for(int i = 0; i < kvartali_names.size(); i++) {
+							%> 
+							<option value="<%=kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
+							<%
+						}
+						
+				%>		
+		</select>
 
-<select class="location" name="location">
-			<option value="">Местоположение</option>
-			<% for(int k = 2; k<=6; k++) { %> 
-			<option value="<%=k%>"><%=k%></option>
-			<%} %>	
-</select>
-<select class="parks" name="parks">
-			<option value="">Паркове и зеленина</option>
-			<% for(int k = 2; k<=6; k++) { %> 
-			<option value="<%=k%>"><%=k%></option>
-			<%} %>
-</select>
-<select class="infrastructure" name="infrastructure"">
-			<option value="">Инфраструктура</option>
-			<% for(int k = 2; k<=6; k++) { %> 
-			<option value="<%=k%>"><%=k%></option>
-			<%} %>
-</select>
+		<select class="location" name="location">
+					<option value="">Местоположение</option>
+					<% for(int k = 2; k<=6; k++) { %> 
+					<option value="<%=k%>"><%=k%></option>
+					<%} %>	
+		</select>
+		
+		<select class="parks" name="parks">
+					<option value="">Паркове и зеленина</option>
+					<% for(int k = 2; k<=6; k++) { %> 
+					<option value="<%=k%>"><%=k%></option>
+					<%} %>
+		</select>
+		
+		<select class="infrastructure" name="infrastructure"">
+					<option value="">Инфраструктура</option>
+					<% for(int k = 2; k<=6; k++) { %> 
+					<option value="<%=k%>"><%=k%></option>
+					<%} %>
+		</select>
 
-<select class="crime" name="crime"">
-			<option value="">Сигурност</option>
-			<% for(int k = 2; k<=6; k++) { %> 
-			<option value="<%=k%>"><%=k%></option>
-			<%} %>
-</select>
-<select class="transport" name="transport"">
-			<option value="">Транспорт</option>
-			<% for(int k = 2; k<=6; k++) { %> 
-			<option value="<%=k%>"><%=k%></option>
-			<%} %>
-	
-</select>
-<select class="facilities" name="facilities">
-			<option value="">Учреждения</option>
-			<% for(int k = 2; k<=6; k++) { %> 
-			<option value="<%=k%>"><%=k%></option>
-			<%} %>
-</select>
+		<select class="crime" name="crime"">
+					<option value="">Сигурност</option>
+					<% for(int k = 2; k<=6; k++) { %> 
+					<option value="<%=k%>"><%=k%></option>
+					<%} %>
+		</select>
 
-<select class="buildings" name="buildings">
-			<option value="">Сграден фонд</option>
-	
-			<% for(int k = 2; k<=6; k++) { %> 
-			<option value="<%=k%>"><%=k%></option>
-			<%} %>
-</select>
-<select class="shops" name ="shops">
-			<option value="">Магазини</option>
-	
-			<% for(int k = 2; k<=6; k++) { %> 
-			<option value="<%=k%>"><%=k%></option>
-			<%} %>
-</select>
+		<select class="transport" name="transport"">
+					<option value="">Транспорт</option>
+					<% for(int k = 2; k<=6; k++) { %> 
+					<option value="<%=k%>"><%=k%></option>
+					<%} %>
+			
+		</select>
+		
+		<select class="facilities" name="facilities">
+					<option value="">Учреждения</option>
+					<% for(int k = 2; k<=6; k++) { %> 
+					<option value="<%=k%>"><%=k%></option>
+					<%} %>
+		</select>
 
-</center>
+		<select class="buildings" name="buildings">
+					<option value="">Сграден фонд</option>
+			
+					<% for(int k = 2; k<=6; k++) { %> 
+					<option value="<%=k%>"><%=k%></option>
+					<%} %>
+		</select>
+		
+		<select class="shops" name ="shops">
+					<option value="">Магазини</option>
+			
+					<% for(int k = 2; k<=6; k++) { %> 
+					<option value="<%=k%>"><%=k%></option>
+					<%} %>
+		</select>
 <br><br>
-</div>
-<div>
-<center>
+
 Моля, въведете мнение за квартала, който оценихте:
 <br>
 
@@ -305,12 +301,9 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 </div>
 
 <br> 
-<div id="opinions">
-<center>
-<b>Въведени мнения от потребителите: </b> 
-</center>
-<br> 
-</div>
+<div id="opinions" class="opinions">
+
+<b>Въведени мнения от потребителите:</b> 
 
 <% 
 Opinion firstOpinion = new Opinion();
@@ -338,7 +331,7 @@ for(int i = 0; i < opinions.size(); i+=3){
 <div class="section">
 	        <div class="container">
 	        	<div class="row">
-	        		<div class="col-md-4 col-sm-6">
+	        		<div class="col-md-3 col-sm-4">
 	        			<div class="service-wrapper">
 		        			<h3><%=firstOpinion.getKvartal()%></h3>
 		        			<p><%=firstOpinion.getComment()%></p>
@@ -346,7 +339,7 @@ for(int i = 0; i < opinions.size(); i+=3){
 	        		</div>
 	        		<%if(secondOpinion.getComment().length()>0) {%>
 	        		
-	        		<div class="col-md-4 col-sm-6">
+	        		<div class="col-md-3 col-sm-4">
 	        			<div class="service-wrapper">
 		        			<h3><%=secondOpinion.getKvartal()%></h3>
 		        			<p><%=secondOpinion.getComment()%></p>
@@ -355,7 +348,7 @@ for(int i = 0; i < opinions.size(); i+=3){
 	        		<%} %>
 	        		
 	        		<%if(thirdOpinion.getComment().length()>0) {%>
-	        		<div class="col-md-4 col-sm-6">
+	        		<div class="col-md-3 col-sm-4">
 	        			<div class="service-wrapper">
 		        			<h3><%=thirdOpinion.getKvartal()%></h3>
 		        			<p><%=thirdOpinion.getComment()%></p>
@@ -368,7 +361,7 @@ for(int i = 0; i < opinions.size(); i+=3){
 	    </div>
 
 <% } %>
-	
+</div>
 <script defer="defer">
 	$(document).ready(function() 
     { 

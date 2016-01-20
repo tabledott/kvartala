@@ -53,7 +53,7 @@
 	        			</p>
 		    		</div>
 		    		<div class="col-footer col-md-2 col-xs-6">
-		    			<h3>Mоля, посетете нашата страница!</h3>
+		    			<h3>Mоля, посетете нашата Фейсбук страница!</h3>
 		    			<ul class="footer-stay-connected no-list-style">
 		    				<li><a href="https://www.facebook.com/kvartaliinfo-839085642879929/?fref=ts" class="facebook"></a></li>
 		    			</ul>
