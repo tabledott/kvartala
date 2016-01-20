@@ -98,7 +98,8 @@
 					kvartalName = (String)session.getAttribute("kvartal");
 				}
 				%>
-			<!--  	<option value="<%=kvartalName%>" selected></option>-->
+				
+			  	<option value="<%=kvartalName%>" selected></option>
 				<% 
 				for(int i = 0; i < kvartali_names.size(); i++) {
 				%> 
@@ -129,7 +130,7 @@
 <input type="hidden" name="kvartal" value="<%=session.getAttribute("kvartal")%>">
 
 <br />
-  Име на обекта/човека<br>
+  Име на обекта<br>
   <input type="text" size="35" name="objectName"><br />
  
 <select class="evaluation" name="evaluation">
@@ -140,7 +141,7 @@
 </select>
 
 <br />
-Моля, въведете мнение за обекта/човека, който оценихте:
+Моля, въведете мнение за обекта, който оценихте:
 <br>
 
 <textarea  class="opinion" rows="4" cols="50" name="opinion">

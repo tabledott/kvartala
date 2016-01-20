@@ -19,13 +19,13 @@
 </servlet-mapping>
 
 <servlet>
-  <servlet-name>addInfoKvartal</servlet-name>
+  <servlet-name>addinfokvartal</servlet-name>
   <servlet-class>com.kvartali.AddInfoKvartalServlet</servlet-class>
 </servlet>
 
 <servlet-mapping>
-  <servlet-name>addInfoKvartal</servlet-name>
-  <url-pattern>/kvartal</url-pattern>
+  <servlet-name>addinfokvartal</servlet-name>
+  <url-pattern>/addinfokvartal</url-pattern>
 </servlet-mapping>
 
 

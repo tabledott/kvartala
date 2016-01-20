@@ -62,11 +62,13 @@
 
 <jsp:include page="header.jsp" />
 
+<div id="headerInfo">
  <center>	
- 	Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София. <br>  <br>
+ 	<b>Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София.</b> <br>  <br>
 </center>
-
+</div>
 	
+<div id = "maintable">
 <form accept-charset="UTF-8" action="/kvartali.jsp" method="get">	
 <table id="insured_list" class="tablesorter"> 
 <thead> 
@@ -186,8 +188,10 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 </tbody> 
 </table> 
 </form>
+</div>
 <center>
-	<div id="pager" class="pager">
+
+<div id="pager" class="pager">
 	<form accept-charset="UTF-8">
 		<img src="images/first.png" class="first"/>
 		<img src="images/prev.png" class="prev"/>
@@ -204,6 +208,8 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 </div>
 
 </center>
+
+<div id="evaluation" class="evaluation" style="display:none">
 
 <br> 
 <center>
@@ -283,7 +289,8 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 
 </center>
 <br><br>
-
+</div>
+<div>
 <center>
 Моля, въведете мнение за квартала, който оценихте:
 <br>
@@ -295,13 +302,15 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 
 </form>
 </center>
-
+</div>
 
 <br> 
+<div id="opinions">
 <center>
-Въведени мнения от потребителите: 
+<b>Въведени мнения от потребителите: </b> 
 </center>
 <br> 
+</div>
 
 <% 
 Opinion firstOpinion = new Opinion();
