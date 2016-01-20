@@ -65,8 +65,9 @@
 <jsp:include page="header.jsp" />
 
 <div id="start">
- 	<b>Разберете какво мислят хората за вашия квартал. Kvartali.info предлага статистики и мнения за кварталите на София.</b> 
- 	<br>  <br>
+ 	<b>Разберете какво мислят хората за вашия квартал. <br>
+ 	Kvartali.info предлага статистики и мнения за кварталите на София.</b> 
+ 	<br>  
 </div>
 	
 <div id="sortedtable">
@@ -289,7 +290,7 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 		</select>
 <br><br>
 
-Моля, въведете мнение за квартала, който оценихте:
+<b>Моля, въведете мнение за квартала, който оценихте:</b>
 <br>
 
 <textarea  class="opinion" rows="4" cols="50" name="opinion">
@@ -349,7 +350,7 @@ for(int i = 0; i < opinions.size(); i+=3){
 	        		<%} %>
 	        		
 	        		<%if(thirdOpinion.getComment().length()>0) {%>
-	        		<div class="col-md-3 col-sm-4">
+	        		<div class="col-md-3 col-sm-3">
 	        			<div class="service-wrapper">
 		        			<h3><%=thirdOpinion.getKvartal()%></h3>
 		        			<p><%=thirdOpinion.getComment()%></p>

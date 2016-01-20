@@ -98,7 +98,7 @@ body {
 	
 #opinions{
 	margin: auto;
-	background-color: #cceeff;
+	background-color: #e6EEEE;
 	text-align: center;
 	width: 60%;
 }
@@ -114,3 +114,16 @@ body {
 	text-align: center;
 	width: 60%;
 }
+
+#left {
+    float:left;
+    width:100px;
+}
+
+#center {
+    display: inline-block;
+    margin:0 auto;
+    width:100px;
+}
+
+
