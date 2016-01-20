@@ -68,5 +68,23 @@ public class OpinionObject implements java.io.Serializable {
 				+ ", opinions=" + opinions + ", counterEvaluation="
 				+ counterEvaluation + ", sumEvaluation=" + sumEvaluation + "]";
 	}
+	public String getBusinessCategory() {
+		return businessCategory;
+	}
+	public void setBusinessCategory(String businessCategory) {
+		this.businessCategory = businessCategory;
+	}
+	public String getBusinessAddress() {
+		return businessAddress;
+	}
+	public void setBusinessAddress(String businessAddress) {
+		this.businessAddress = businessAddress;
+	}
+	public HashSet<String> getOpinions() {
+		return opinions;
+	}
+	public void setOpinions(HashSet<String> opinions) {
+		this.opinions = opinions;
+	}
 
 }

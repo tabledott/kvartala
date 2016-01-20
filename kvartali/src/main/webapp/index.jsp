@@ -207,7 +207,7 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 
 <br> 
 <center>
-Добави оценка за кварталите:
+<b>Добави оценка за кварталите:</b>
 <br><br>
 
 <form accept-charset="UTF-8" action="/addkvartal" method="post">

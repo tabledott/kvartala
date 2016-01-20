@@ -22,7 +22,7 @@ public class AddInfoKvartalServlet extends HttpServlet{
 		  	
 		  	String kvartalName = req.getParameter("kvartal");
 		  	if(kvartalName == null){
-		  		kvartalName = (String)req.getSession(false).getAttribute("kvartal");
+		  		kvartalName = (String)req.getSession(true).getAttribute("kvartal");
 		  	}
 		  	
 		  	String objectName = req.getParameter("objectName");
@@ -31,7 +31,10 @@ public class AddInfoKvartalServlet extends HttpServlet{
 		  	}
 		  		
 		  	String category = req.getParameter("category");
-		  	String address = req.getParameter("objectAddress");
+		  	if(category == null){
+		  		category = "";
+		  	}
+
 		  	String opinion = req.getParameter("opinion");
 		  	byte evaluation = 0;
 		  	
@@ -51,17 +54,13 @@ public class AddInfoKvartalServlet extends HttpServlet{
 	    		nextObject = new OpinionObject(getKvartalKey, objectName);
 	    	}
 		    
-	    	nextObject.AddOpinionObject(objectName, category, address, opinion, evaluation);
+	    	//no address as of now
+	    	nextObject.AddOpinionObject(objectName, category, "", opinion, evaluation);
 	    	
 		    ObjectifyService.ofy().save().entity(nextObject).now(); //Update DB
-		    
-			List<OpinionObject> opinionObjects = ObjectifyService.ofy()
-					.load().type(OpinionObject.class).ancestor(getKvartalKey).list();
-
-			for(int i = 0; i < opinionObjects.size(); i++){
-				System.out.println("OOO: "+ opinionObjects.get(i).toString());
-			}
-
+		    			
+			req.getSession(true).setAttribute("kvartal", kvartalName);
+			
 		    resp.sendRedirect("/kvartal.jsp");
 	  }
 

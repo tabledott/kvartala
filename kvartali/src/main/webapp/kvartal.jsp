@@ -92,6 +92,7 @@
 						 randKvartal = rand.nextInt(kvartali_names.size());
 					 }
 					 kvartalName = kvartali_names.get(randKvartal);
+					 session.setAttribute("kvartal", kvartalName);
 				}
 				else{
 					kvartalName = (String)session.getAttribute("kvartal");
@@ -131,9 +132,6 @@
   Име на обекта/човека<br>
   <input type="text" size="35" name="objectName"><br />
  
- 	Адрес на обекта/човека:<br>
-  <input type="text" size="35" name="objectAddress"><br />
-
 <select class="evaluation" name="evaluation">
 			<option value="">Оценка</option>
 			<% for(int k = 2; k<=6; k++) { %> 
@@ -257,7 +255,7 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 	        </div>
 	    </div>
 
-<% }%>
+<% } %>
 	
 	<%
 	Key<Kvartal> getKvartalKey = Key.create(Kvartal.class, kvartalName);
@@ -265,11 +263,72 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 	
 	List<OpinionObject> opinionObjects = ObjectifyService.ofy()
 			.load().type(OpinionObject.class).ancestor(getKvartalKey).list();
+	
+	OpinionObject firstOpinionObject = null;
+	OpinionObject secondOpinionObject = null;
+	OpinionObject thirdOpinionObject = null;
 
-	for(int i = 0; i < opinionObjects.size(); i++){
-		System.out.println("OOO: "+ opinionObjects.get(i).toString());
-	}
+	for(int i = 0; i < opinionObjects.size(); i+=3){ 
+		firstOpinionObject = opinionObjects.get(i);
+		
+		if( i < opinionObjects.size() - 1) {
+			secondOpinionObject = opinionObjects.get(i+1);
+		}
+		
+		if( i < opinionObjects.size() - 2) {
+			thirdOpinionObject = opinionObjects.get(i+2);
+		}
 	%>
+	
+	<div class="section">
+	        <div class="container">
+	        	<div class="row">
+
+	        		<div class="col-md-4 col-sm-6">
+	        			<div class="service-wrapper">
+		        			<h3><%=kvartalName%></h3>
+		        			<p><%="Име на обекта: "+ firstOpinionObject.name%></p>
+		        			<p><%="Категория: "+ firstOpinionObject.getBusinessCategory()%></p>
+		        			<p><%="Оценка: "+ firstOpinionObject.getMark()%></p>
+		        			<% for (String s: firstOpinionObject.getOpinions()) {%>		        
+		        			<p><%="Мнение: "+ s%></p>		        			 
+		        			<%}%>       
+		        		</div>
+	        		</div>
+
+	        		<%if(secondOpinionObject!=null) {%>
+	        		<div class="col-md-4 col-sm-6">
+	        			<div class="service-wrapper">
+		        			<h3><%=next.getName()%></h3>
+		        			<p><%="Име на обекта: "+ secondOpinionObject.name%></p>
+		        			<p><%="Категория: "+secondOpinionObject.getBusinessCategory()%></p>	
+		        			<p><%="Оценка: "+ secondOpinionObject.getMark()%></p>
+		        			<% for (String s: secondOpinionObject.getOpinions()) {%>		        
+		        			<p><%="Мнение: "+ s%></p>		        			 
+		        			<%}%>       
+		        				        		
+		        		</div>
+	        		</div>
+	        		<%} %>
+	        		<%if(thirdOpinionObject!=null){%>
+	        		<div class="col-md-4 col-sm-6">
+	        			<div class="service-wrapper">
+		        			<h3><%=next.getName()%></h3>
+		        			<p><%="Име на обекта: "+ thirdOpinionObject.name%></p>
+		        			<p><%="Категория:" + thirdOpinionObject.getBusinessCategory()%></p>		
+		        			<p><%="Оценка: "+ thirdOpinionObject.getMark()%></p>
+		        			<% for (String s: thirdOpinionObject.getOpinions()) {%>		        
+		        			<p><%="Мнение: "+ s%></p>		        			 
+		        			<%}%>       
+		        		</div>
+	        		</div>
+	        		<%} %>
+	        	</div>
+	        </div>
+	    </div>
+
+	<%} %>
+	
 	<script defer="defer">
 	$(document).ready(function() 
     { 
