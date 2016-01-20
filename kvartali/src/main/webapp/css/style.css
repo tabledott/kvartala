@@ -109,6 +109,12 @@ body {
 	width: 60%;
 }
 
+#addObject{
+	margin: auto;
+	text-align: center;
+	width: 60%;
+}
+
 #sortedtable{
 	margin: auto;
 	text-align: center;

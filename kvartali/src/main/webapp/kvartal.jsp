@@ -50,12 +50,13 @@
         <![endif]-->
     </body>
     
+<div id="start">   
+ <b> Моля, изберете квартал </b>
 
-    <center> <b> Моля, изберете квартал </b>
+ 
     
     <form accept-charset="UTF-8" onsubmit="kvartal.jsp" method="post">
 	<select class="kvartal" name="kvartal">
-	<option value="">Квартал</option>
 		<% 		request.setCharacterEncoding( "UTF-8" );			
 				response.setHeader("Content-Encoding", "utf-8");
 				
@@ -99,7 +100,7 @@
 				}
 				%>
 				
-			  	<option value="<%=kvartalName%>" selected></option>
+			  	<option value="<%=kvartalName%>" selected><%=kvartalName%></option>
 				<% 
 				for(int i = 0; i < kvartali_names.size(); i++) {
 				%> 
@@ -109,9 +110,11 @@
 		</select>
 	<input type="submit" class="selected_btn" value="Избери"/>
 </form>
-</center>
+</div>
 
 <!-- Аdding specific information about kvartal -->
+
+<div class="addObject">
 <center>
 <b> Въведете информация за обектите или специалистите в квартала Ви</b>
 
@@ -151,6 +154,7 @@
 </center>
 <br />
 </form>
+</div>
 
     <%
 	    Kvartal next = (Kvartal) syncCache.get(kvartalName); // Read from cache.
@@ -173,6 +177,7 @@
 		double[] stats = next.returnStatistics();
  	 %>   		    		
 
+<div id="sortedtable">
 <form>	
 <table id="insured_list" class="tablesorter"> 
 <thead> 
@@ -204,10 +209,10 @@
 </tbody> 
 </table> 
 </form>
+</div>
 
-<center>
+<div id="opinions" class="opinions">
 	<b> Въведени мнения от потребителите: </b> 
-</center>
 <br> 
 
 <% 
@@ -230,14 +235,14 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 <div class="section">
 	        <div class="container">
 	        	<div class="row">
-	        		<div class="col-md-4 col-sm-6">
+	        		<div class="col-md-3 col-sm-6">
 	        			<div class="service-wrapper">
 		        			<h3><%=next.getName()%></h3>
 		        			<p><%=firstOpinion%></p>
 		        		</div>
 	        		</div>
 	        		<%if(secondOpinion.length()>0) {%>
-	        		<div class="col-md-4 col-sm-6">
+	        		<div class="col-md-3 col-sm-6">
 	        			<div class="service-wrapper">
 		        			<h3><%=next.getName()%></h3>
 		        			<p><%=secondOpinion%></p>
@@ -245,7 +250,7 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 	        		</div>
 	        		<%} %>
 	        		<%if(thirdOpinion.length()>0){%>
-	        		<div class="col-md-4 col-sm-6">
+	        		<div class="col-md-3 col-sm-6">
 	        			<div class="service-wrapper">
 		        			<h3><%=next.getName()%></h3>
 		        			<p><%=thirdOpinion%></p>
@@ -285,7 +290,7 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 	        <div class="container">
 	        	<div class="row">
 
-	        		<div class="col-md-4 col-sm-6">
+	        		<div class="col-md-3 col-sm-6">
 	        			<div class="service-wrapper">
 		        			<h3><%=kvartalName%></h3>
 		        			<p><%="Име на обекта: "+ firstOpinionObject.name%></p>
@@ -298,7 +303,7 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 	        		</div>
 
 	        		<%if(secondOpinionObject!=null) {%>
-	        		<div class="col-md-4 col-sm-6">
+	        		<div class="col-md-3 col-sm-6">
 	        			<div class="service-wrapper">
 		        			<h3><%=next.getName()%></h3>
 		        			<p><%="Име на обекта: "+ secondOpinionObject.name%></p>
@@ -312,7 +317,7 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 	        		</div>
 	        		<%} %>
 	        		<%if(thirdOpinionObject!=null){%>
-	        		<div class="col-md-4 col-sm-6">
+	        		<div class="col-md-3 col-sm-6">
 	        			<div class="service-wrapper">
 		        			<h3><%=next.getName()%></h3>
 		        			<p><%="Име на обекта: "+ thirdOpinionObject.name%></p>
@@ -327,9 +332,9 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 	        	</div>
 	        </div>
 	    </div>
+	<%} %>	
+</div>
 
-	<%} %>
-	
 	<script defer="defer">
 	$(document).ready(function() 
     { 

@@ -333,7 +333,7 @@ for(int i = 0; i < opinions.size(); i+=3){
 <div class="section">
 	        <div class="container">
 	        	<div class="row">
-	        		<div class="col-md-3 col-sm-4">
+	        		<div class="col-md-3 col-sm-3">
 	        			<div class="service-wrapper">
 		        			<h3><%=firstOpinion.getKvartal()%></h3>
 		        			<p><%=firstOpinion.getComment()%></p>
@@ -341,7 +341,7 @@ for(int i = 0; i < opinions.size(); i+=3){
 	        		</div>
 	        		<%if(secondOpinion.getComment().length()>0) {%>
 	        		
-	        		<div class="col-md-3 col-sm-4">
+	        		<div class="col-md-3 col-sm-3">
 	        			<div class="service-wrapper">
 		        			<h3><%=secondOpinion.getKvartal()%></h3>
 		        			<p><%=secondOpinion.getComment()%></p>
