@@ -96,13 +96,6 @@ body {
 		width: 60%;
 }
 	
-#opinions{
-	margin: auto;
-	background-color: #e6EEEE;
-	text-align: center;
-	width: 60%;
-}
-
 #start{
 	margin: auto;
 	text-align: center;
@@ -133,3 +126,30 @@ body {
 }
 
 
+.float-left {
+float:left;
+width:33%; // or 33% for equal width independent of parent width
+}
+
+#opinions{
+	margin: auto;
+	background-color: #e6EEEE;
+	text-align: center;
+	width: 60%;
+}
+
+.rowOpinion{
+	margin: auto;
+	background-color: green; //#e6EEEE;
+	text-align: center;
+	width: 60%;
+	
+}
+.float-left{
+	margin: auto;
+	float:left;
+	background-color: blue;
+	text-align: center;
+	width: 100%;
+	
+}

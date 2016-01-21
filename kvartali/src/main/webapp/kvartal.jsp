@@ -52,11 +52,11 @@
     
 <div id="start">   
  <b> Моля, изберете квартал </b>
-
- 
     
-    <form accept-charset="UTF-8" onsubmit="kvartal.jsp" method="post">
-	<select class="kvartal" name="kvartal">
+  <form accept-charset="UTF-8" name="Selector" class="Selector">  
+
+	<select class="kvartal" name="kvartal" onchange="gotoPage(this)">
+	
 		<% 		request.setCharacterEncoding( "UTF-8" );			
 				response.setHeader("Content-Encoding", "utf-8");
 				
@@ -104,12 +104,14 @@
 				<% 
 				for(int i = 0; i < kvartali_names.size(); i++) {
 				%> 
-					<option value="<%=kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
+					<option value="<%="kvartal.jsp?kvartalName="+kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
 				<% }%>			
 		
 		</select>
-	<input type="submit" class="selected_btn" value="Избери"/>
-</form>
+		</form>
+		
+<input type="submit" class="selected_btn" value="Избери"/>
+	</form>  	 
 </div>
 
 <!-- Аdding specific information about kvartal -->
@@ -335,7 +337,8 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 	<%} %>	
 </div>
 
-	<script defer="defer">
+<script defer="defer">
+	
 	$(document).ready(function() 
     { 
         $("#insured_list")
@@ -344,6 +347,14 @@ for(int i = 0; i < next.opinions.size(); i+=3){
     } 
 	); 
 </script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#selection").change(function() {
+            location = $("#selection option:selected").val();
+        });
+    });
+	</script>
 			
 	
      <jsp:include page="footer.jsp" />

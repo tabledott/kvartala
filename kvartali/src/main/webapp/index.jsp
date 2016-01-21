@@ -65,7 +65,7 @@
 <jsp:include page="header.jsp" />
 
 <div id="start">
- 	<b>Разберете какво мислят хората за вашия квартал. <br>
+ 	<b>Разберете какво мислят хората за вашия квартал. 
  	Kvartali.info предлага статистики и мнения за кварталите на София.</b> 
  	<br>  
 </div>
@@ -92,6 +92,7 @@
 <%
 request.setCharacterEncoding( "UTF-8" );
 response.setCharacterEncoding( "UTF-8" );
+final Logger LOG = Logger.getLogger(Kvartal.class.getName());
 
 FileReaderSite tmpReader = new FileReaderSite();
 LinkedList<String> kvartali_names = new LinkedList<String>();
@@ -121,13 +122,26 @@ for (int i =0; i<kvartali_names.size(); i++ ){
 		countKvartali++;// Read from cache.
 		session.setAttribute(kvartali_names.get(i), syncCache.get(kvartali_names.get(i)));
 	}
+	else{
+		// Getting the information from the database
+		/*Key<Kvartal> getKvartalKey = Key.create(Kvartal.class, kvartali_names.get(i));
+    	Kvartal next = 	ObjectifyService.ofy()
+				.load().type(Kvartal.class).filterKey(getKvartalKey).first().now();
+    	
+    	if(next == null){
+    		next = new Kvartal();
+    		next.setName(kvartali_names.get(i));
+    	}
+    	LOG.warning("Getting from the database: " + next.toString());
+		session.setAttribute(kvartali_names.get(i), next);
+		syncCache.put(kvartali_names.get(i), next); */
+	}
 }
 
 //syncCache.delete("Полигона");
 
 //initial initialization from database because sometimes data is lost.
 if (countKvartali < 50) {
-    final Logger LOG = Logger.getLogger(Kvartal.class.getName());
     
 	List<Kvartal> kvartali = ObjectifyService.ofy()
 		.load()
@@ -333,7 +347,7 @@ for(int i = 0; i < opinions.size(); i+=3){
 <div class="section">
 	        <div class="container">
 	        	<div class="row">
-	        		<div class="col-md-3 col-sm-3">
+	        		<div class="col-md-3 col-sm-4">
 	        			<div class="service-wrapper">
 		        			<h3><%=firstOpinion.getKvartal()%></h3>
 		        			<p><%=firstOpinion.getComment()%></p>
@@ -341,7 +355,7 @@ for(int i = 0; i < opinions.size(); i+=3){
 	        		</div>
 	        		<%if(secondOpinion.getComment().length()>0) {%>
 	        		
-	        		<div class="col-md-3 col-sm-3">
+	        		<div class="col-md-3 col-sm-4">
 	        			<div class="service-wrapper">
 		        			<h3><%=secondOpinion.getKvartal()%></h3>
 		        			<p><%=secondOpinion.getComment()%></p>
