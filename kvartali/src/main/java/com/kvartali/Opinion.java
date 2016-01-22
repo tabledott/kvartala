@@ -6,8 +6,10 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 @Entity 
-public class Opinion implements java.io.Serializable {
-	
+public class Opinion implements java.io.Serializable, Comparable<Opinion> {
+
+	private static final long serialVersionUID = -3674486956302072330L;
+
 	@Id
 	public Long opinionId;
 	
@@ -49,4 +51,14 @@ public class Opinion implements java.io.Serializable {
 		this.date = date;
 	}
 	
+	@Override
+	public int compareTo( Opinion other){
+		if (this.comment.length() < other.comment.length()){
+			return -1;
+		}
+		if (this.comment.length() > other.comment.length()){
+			return 1;
+		}
+		return 0;
+	}
 }

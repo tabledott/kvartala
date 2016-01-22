@@ -2,7 +2,7 @@
 <cronentries>
   <cron>
     <url>/cacherepopulator</url>
-    <description>Repopulate the cache every 1 hour</description>
-    <schedule>every 1 hours</schedule>
+    <description>Repopulate the cache every 3 minutes</description>
+    <schedule>every 3 minutes</schedule>
   </cron>
 </cronentries>

@@ -48,15 +48,9 @@
 		    		<div class="col-footer col-md-4 col-xs-6">
 		    			<h3>Контакти</h3>
 		    			<p class="contact-us-details">
-	        				<b>Address:</b> София, Квартала<br/>
-	        				<b>Email:</b> <a href="mailto:ttsonkov@gmail.com">ttsonkov AT gmail.com	  	
+	        				<b>Адрес:</b> София, Квартала<br/>
+	        				<b>Facebook:</b> <a href="https://www.facebook.com/kvartaliinfo-839085642879929">https://www.facebook.com/kvartaliinfo-839085642879929	</a>  	
 	        			</p>
-		    		</div>
-		    		<div class="col-footer col-md-2 col-xs-6">
-		    			<h3>Mоля, посетете нашата Фейсбук страница!</h3>
-		    			<ul class="footer-stay-connected no-list-style">
-		    				<li><a href="https://www.facebook.com/kvartaliinfo-839085642879929/?fref=ts" class="facebook"></a></li>
-		    			</ul>
 		    		</div>
 		    	</div>
 		    	<div class="row">

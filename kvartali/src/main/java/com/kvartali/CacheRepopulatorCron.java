@@ -31,7 +31,7 @@ public class CacheRepopulatorCron extends HttpServlet{
 		LinkedList<String> kvartali_names = new LinkedList<String>();
 		kvartali_names = tmpReader.readListFromFile("kvartali.txt");
 
-		LOG.warning("Running cron repopulator!");
+		//LOG.warning("Running cron repopulator!");
 
 		for(int i = 0; i<kvartali_names.size(); i++){
 			if (syncCache.contains(kvartali_names.get(i))){

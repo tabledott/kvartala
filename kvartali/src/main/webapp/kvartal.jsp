@@ -50,12 +50,13 @@
         <![endif]-->
     </body>
     
-<div id="start">   
+<div id="SelectorKvartal">   
+<center>
  <b> Моля, изберете квартал </b>
     
-  <form accept-charset="UTF-8" name="Selector" class="Selector">  
+  <form accept-charset="UTF-8" action="/addinfokvartal" method="post">  
 
-	<select class="kvartal" name="kvartal" onchange="gotoPage(this)">
+	<select class="kvartal" name="kvartal">
 	
 		<% 		request.setCharacterEncoding( "UTF-8" );			
 				response.setHeader("Content-Encoding", "utf-8");
@@ -104,19 +105,20 @@
 				<% 
 				for(int i = 0; i < kvartali_names.size(); i++) {
 				%> 
-					<option value="<%="kvartal.jsp?kvartalName="+kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
+					<option value="<%=kvartali_names.get(i)%>"> <%=kvartali_names.get(i)%> </option> 
 				<% }%>			
 		
 		</select>
-		</form>
-		
+
 <input type="submit" class="selected_btn" value="Избери"/>
-	</form>  	 
+</center>
+</form>
+		
 </div>
 
 <!-- Аdding specific information about kvartal -->
 
-<div class="addObject">
+<div id="Evaluator">
 <center>
 <b> Въведете информация за обектите или специалистите в квартала Ви</b>
 
@@ -156,6 +158,7 @@
 </center>
 <br />
 </form>
+
 </div>
 
     <%
@@ -271,6 +274,10 @@ for(int i = 0; i < next.opinions.size(); i+=3){
 	
 	List<OpinionObject> opinionObjects = ObjectifyService.ofy()
 			.load().type(OpinionObject.class).ancestor(getKvartalKey).list();
+	
+	if (opinionObjects == null){
+		opinionObjects = new LinkedList<OpinionObject>();
+	}
 	
 	OpinionObject firstOpinionObject = null;
 	OpinionObject secondOpinionObject = null;

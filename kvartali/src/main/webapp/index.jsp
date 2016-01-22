@@ -1,10 +1,13 @@
+<%@page import="java.util.Collection"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@page pageEncoding="UTF-8" %>
 
 <%@page import="java.util.HashMap"%>
 <%@ page import="java.util.LinkedList" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Collections" %>
 <%@ page import="java.util.Date" %>
 
 <%@ page import="com.kvartali.Kvartal" %>
@@ -172,7 +175,7 @@ if (countKvartali < 50) {
 	*/
 }
 
-LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
+ArrayList<Opinion> opinions  = new ArrayList<Opinion>();
 
 //visualize the data for each Kvartal
 	for (int i =0; i<kvartali_names.size(); i++ ){
@@ -319,12 +322,13 @@ LinkedList<Opinion> opinions  = new LinkedList<Opinion>();
 <br> 
 <div id="opinions" class="opinions">
 
-<b>Въведени мнения от потребителите:</b> 
+<b>Примерни мнения от потребителите:</b> 
 
 <% 
 Opinion firstOpinion = new Opinion();
 Opinion secondOpinion = new Opinion();
 Opinion thirdOpinion = new Opinion();
+//Collections.sort(opinions);
 
 for(int i = 0; i < opinions.size(); i+=3){ 
 	firstOpinion = opinions.get(i);
